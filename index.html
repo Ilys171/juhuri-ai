@@ -6,7 +6,7 @@
 <title>JUHURI AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700;800&display=optional" rel="stylesheet">
 <style>
 /* VOICE occasion: a community heritage project, warm and serious, made by students with their elders
    IDEA a Quba carpet runner: the speech of elders woven into it as a waveform, knot by knot
@@ -14,7 +14,8 @@
    COLOUR indigo ground, madder red support, saffron accent, wool white panels; same idea at night
    TYPE Unbounded (wide, carved display) + Manrope (text), both with Cyrillic and Azerbaijani letters
    LAYOUT laptop: title band over the runner, dictionary as a dense card grid; phone: stacked, filters wrap */
-:root{color-scheme:light dark;--bg:light-dark(#faf5ec,#0e1430);--panel:light-dark(#fffdf8,#18214a);--ink:light-dark(#231a17,#f3ecdf);--soft:light-dark(#5e5048,#b9b3c6);--line:light-dark(#e2d5bf,#2c3768);--tint:light-dark(#f1e7d6,#121a3d);--ind:#1a2b5e;--ind2:#111c40;--mad:#a62d2b;--saf:#e0a93b;--wool:#f6efe2;--madT:light-dark(#a62d2b,#ff8a7a);--grn:#2f6f64;--grnT:light-dark(#2f6f64,#7cc7b4);--rose:#e9b8a6;--walnut:#231a17;--terra:#b5543a;--ease-out:cubic-bezier(.2,.8,.2,1);--ease-knot:cubic-bezier(.34,1.56,.64,1);--d-fast:160ms;--d-base:320ms;--d-slow:700ms}
+:root{color-scheme:light dark;--bg:light-dark(#fff4e4,#10102a);--panel:light-dark(#fffbf4,#20204a);--ink:light-dark(#171738,#fff4e4);--soft:light-dark(#4a4a68,#b4b2c8);--line:light-dark(#ecdcc0,#2e2e5c);--tint:light-dark(#fcf0c8,#141433);--ind:#171738;--ind2:#10102a;--mad:#ff57bb;--saf:#f7e8a4;--grn:#5aaa95;--wool:#fff4e4;--onAcc:#171738;--madT:light-dark(#b8237f,#ff57bb);--grnT:light-dark(#2e7363,#5aaa95);--focus:light-dark(#b8237f,#f7e8a4)}
+:root{--ease-out:cubic-bezier(.2,.8,.2,1);--ease-knot:cubic-bezier(.34,1.56,.64,1);--d-fast:160ms;--d-base:320ms;--d-slow:700ms}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 html{scroll-padding-top:72px;scroll-behavior:smooth}
@@ -29,10 +30,11 @@ a{color:inherit}
 .lead{font-size:18px;color:var(--soft)}
 .note{font-size:13px;color:var(--soft);margin-top:12px}
 button,input,select,textarea{font:inherit}
-:focus-visible{outline:3px solid var(--saf);outline-offset:2px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+nav,.hero,.strip,.place,footer{--focus:var(--saf)}.wod,.road{--focus:var(--onAcc)}
 .btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:999px;border:2px solid transparent;font-weight:700;text-decoration:none;cursor:pointer}
-.btn.pri{background:var(--saf);color:#1f1606}
-.btn.pri:hover{background:#eab955}
+.btn.pri{background:var(--mad);color:var(--onAcc)}
+.btn.pri:hover{background:#ff7ac9}
 .btn.sec{border-color:color-mix(in srgb,var(--wool) 55%,transparent);color:var(--wool);background:none}
 .btn.sec:hover{background:color-mix(in srgb,var(--wool) 12%,transparent)}
 .btn.out{border-color:var(--line);color:var(--ink);background:var(--panel)}
@@ -44,12 +46,12 @@ nav .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .links a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
 .lang{display:flex;border:1px solid #ffffff40;border-radius:999px;padding:3px}
 .lang button{background:none;border:0;color:var(--wool);min-width:44px;min-height:36px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer}
-.lang button[aria-pressed=true]{background:var(--saf);color:#1f1606}
+.lang button[aria-pressed=true]{background:var(--saf);color:var(--onAcc)}
 .hero{background:var(--ind);color:var(--wool);padding-bottom:0}
 .htop{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px 56px;align-items:end}
 .hero h1{font-size:clamp(50px,7vw,100px);font-weight:800;line-height:.95;letter-spacing:-.03em}
 .hero .sub{font:600 clamp(19px,2.1vw,26px)/1.25 Unbounded,sans-serif;margin-top:18px;max-width:24ch}
-.hero .lead{color:#d9d4e6;margin-bottom:22px}
+.hero .lead{color:#d8d6ea;margin-bottom:22px}
 .scripts{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:22px;font-size:20px;color:var(--saf);font-weight:700}
 .cta{display:flex;gap:12px;flex-wrap:wrap}
 .runner{position:relative;height:clamp(170px,22vw,260px);margin-top:clamp(32px,4vw,52px)}
@@ -58,8 +60,8 @@ nav .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .strip .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
 .strip .src{font-size:20px;font-weight:800;color:var(--saf)}
 .chip{display:inline-flex;gap:8px;align-items:baseline;background:#ffffff14;border-radius:10px;padding:8px 12px;white-space:nowrap}
-.chip b{font-size:13px;color:#b9b6cc;font-weight:700}
-.strip small{color:#b9b6cc;font-size:13px;margin-inline-start:auto}
+.chip b{font-size:13px;color:#b4b2c8;font-weight:700}
+.strip small{color:#b4b2c8;font-size:13px;margin-inline-start:auto}
 .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:28px}
 .fact{background:var(--panel);padding:22px}
 .fact strong{display:block;font:800 clamp(24px,2.6vw,34px)/1.1 Unbounded,sans-serif;color:var(--madT);margin-bottom:8px;text-wrap:balance}
@@ -71,21 +73,21 @@ nav .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .sc div{font:600 clamp(20px,2.4vw,28px)/1.2 Unbounded,"Noto Sans Hebrew",sans-serif}
 .place{margin-top:18px;background:var(--ind);color:var(--wool);border-radius:16px;padding:20px 22px}
 .place h3{color:var(--saf);margin-bottom:8px}
-.place p{margin:0;color:#dcd9e8}
+.place p{margin:0;color:#d8d6ea}
 /* words */
 .words{background:var(--tint)}
 .whead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;align-items:end}
-.wod{background:var(--mad);color:var(--wool);border-radius:22px;padding:clamp(20px,3vw,30px);display:grid;gap:6px;position:relative;overflow:hidden}
-.wod small{font-size:14px;color:#f7d6cf;font-weight:700}
+.wod{background:var(--mad);color:var(--onAcc);border-radius:22px;padding:clamp(20px,3vw,30px);display:grid;gap:6px;position:relative;overflow:hidden}
+.wod small{font-size:14px;color:var(--onAcc);font-weight:700}
 .wod .w1{font:800 clamp(34px,5vw,58px)/1.02 Unbounded,sans-serif;overflow-wrap:anywhere}
-.wod .w2{font-size:20px;font-weight:700;color:var(--saf)}
-.wod p{margin:0;color:#fbe9e9}
-.wod button{justify-self:start;margin-top:8px;background:#ffffff1f;color:var(--wool);border:1.5px solid #ffffff66}
+.wod .w2{font-size:20px;font-weight:700;color:var(--onAcc)}
+.wod p{margin:0;color:var(--onAcc)}
+.wod button{justify-self:start;margin-top:8px;background:#ffffff59;color:var(--onAcc);border:1.5px solid #17173866}
 .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:30px 0 18px}
 .tools input[type=search]{flex:1 1 240px;min-height:48px;font-size:16px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink)}
 .cats{display:flex;flex-wrap:wrap;gap:8px}
 .cats button{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font-weight:700;font-size:15px;cursor:pointer}
-.cats button[aria-pressed=true]{background:var(--ind);color:var(--wool);border-color:var(--ind)}
+.cats button[aria-pressed=true]{background:var(--ind);color:var(--wool);border-color:light-dark(var(--ind),var(--saf))}
 .prac{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;min-height:44px;cursor:pointer}
 .prac input{width:20px;height:20px;accent-color:var(--mad)}
 .count{font-size:15px;color:var(--soft);margin:0 0 14px}
@@ -100,7 +102,7 @@ nav .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .w .ft a{font-weight:700;color:var(--madT)}
 .up{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1.5px dashed var(--line);border-radius:10px;cursor:pointer;font-weight:700}
 .up input{position:absolute;width:1px;height:1px;opacity:0}
-.up:focus-within{outline:3px solid var(--saf)}
+.up:focus-within{outline:3px solid var(--focus)}
 .w audio{width:100%;height:40px;margin-top:6px}
 .w.mine{border-style:dashed}
 .practice .w .mean,.practice .w .lit{filter:blur(7px);cursor:pointer;user-select:none}
@@ -127,11 +129,11 @@ form textarea{min-height:90px;resize:vertical}
 .st{position:relative;background:none;border:0;color:var(--ink);cursor:pointer;display:grid;justify-items:center;gap:10px;padding:0 6px 6px;text-align:center}
 .st i{display:grid;place-items:center;width:66px;height:66px;border-radius:50%;background:var(--panel);border:3px solid var(--mad);font:800 20px Unbounded,sans-serif;font-style:normal;color:var(--madT);transition:transform .2s}
 .st span{font-weight:800;font-size:15px}
-.st[aria-selected=true] i{background:var(--mad);color:var(--wool);transform:scale(1.1)}
+.route .st[aria-selected=true] i{background:var(--mad);color:var(--onAcc);transform:scale(1.1)}
 .detail{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px 40px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,34px)}
 .detail h3{font-size:clamp(22px,2.4vw,30px);margin-bottom:12px}
 .kv{display:grid;gap:14px;align-content:start}
-.kv div{border-inline-start:3px solid var(--saf);padding-inline-start:14px}
+.kv div{border-inline-start:3px solid var(--mad);padding-inline-start:14px}
 .detail[data-step="2"] .kv div:last-child{border-inline-start-color:var(--grn)}
 .kv b{display:block;font-size:13px;color:var(--soft);font-weight:700}
 .rq{font:600 clamp(20px,2.2vw,26px)/1.3 Unbounded,sans-serif;border-inline-start:5px solid var(--mad);padding-inline-start:18px;margin:20px 0 28px;max-width:44ch}
@@ -142,19 +144,19 @@ form textarea{min-height:90px;resize:vertical}
 .eth div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
 .eth h3{margin-bottom:8px}
 .eth p{color:var(--soft);font-size:15px;margin:0}
-.road{background:var(--mad);color:var(--wool)}
+.road{background:var(--grn);color:var(--onAcc)}
 .phases{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:30px;list-style:none;padding:0;counter-reset:p}
-.phases li{counter-increment:p;border-top:4px solid var(--saf);padding-top:14px}
-.phases li::before{content:counter(p);font:800 34px Unbounded,sans-serif;color:var(--saf);display:block;margin-bottom:6px}
+.phases li{counter-increment:p;border-top:4px solid var(--onAcc);padding-top:14px}
+.phases li::before{content:counter(p);font:800 34px Unbounded,sans-serif;color:var(--onAcc);display:block;margin-bottom:6px}
 .phases b{display:block;font-size:17px;margin-bottom:6px}
-.phases span{font-size:15px;color:#f7d6cf}
+.phases span{font-size:15px;color:var(--onAcc)}
 .join{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:32px 56px;align-items:start}
 .reqs{display:grid;gap:10px;margin-top:18px}
 .req{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
 .req b{font-size:15px}.req span{color:var(--soft);font-size:14px}
 .req button,.w .rm{background:none;border:1.5px solid var(--line);color:var(--ink);border-radius:10px;min-height:36px;padding:0 12px;cursor:pointer}
 .req button{grid-row:span 2;align-self:center}
-footer{background:var(--ind2);color:#d6d3e4;font-size:15px}
+footer{background:var(--ind2);color:#d8d6ea;font-size:15px}
 footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px 48px}
 footer b{color:var(--wool);font-family:Unbounded,sans-serif}
 footer ul{margin:8px 0 0;padding-inline-start:18px}
@@ -162,157 +164,166 @@ footer li{margin-bottom:4px}
 @media(max-width:900px){.htop,.two,.join,.detail,.whead,.sounds,.suggest,footer .wrap{grid-template-columns:minmax(0,1fr)}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.hyp{grid-template-columns:minmax(0,1fr)}.phases{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.links{order:3;width:100%;margin:0;gap:4px 14px}.links a{font-size:14px}.lang{margin-inline-start:auto}.st i{width:48px;height:48px;font-size:16px}.st span{font-size:12px}.route::before,.route::after{top:22px}.phases,.facts,.row2{grid-template-columns:minmax(0,1fr)}.strip small{margin:0}th,td{padding:8px}td.big{font-size:18px}#sounds thead{display:none}#sounds tr{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:4px 16px;padding:12px 14px;border-bottom:1px solid var(--line);align-items:baseline}#sounds td{border:0;padding:0}#sounds td:nth-child(3){grid-column:1/-1;grid-row:2;color:var(--soft)}#sounds td:nth-child(4){text-align:end}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.st i{transition:none}}
-/* Woven interactions and progressive motion */
+/* ===== Woven motion =====
+   Base rules below are the finished, visible state (no JS, reduced motion, print).
+   Hidden start states exist only under html.js inside screen + prefers-reduced-motion:no-preference.
+   Only transform, opacity, clip-path and filter are animated (plus the --sew angle of a conic mask). */
+@property --sew{syntax:"<angle>";inherits:false;initial-value:0deg}
+.hero{overflow:clip}
+/* nav: soft shadow after 40px, woven progress strip under it */
+nav::after{content:"";position:absolute;inset:0;z-index:-1;box-shadow:0 6px 18px #10102a40;opacity:0;transition:opacity var(--d-base) var(--ease-out);pointer-events:none}
+nav.scrolled::after{opacity:1}
+.read-progress{position:absolute;left:0;right:0;top:100%;height:4px;overflow:hidden;pointer-events:none}
+.read-progress::before{content:"";display:block;height:100%;background:repeating-linear-gradient(90deg,var(--mad) 0 12px,var(--saf) 12px 24px,var(--grn) 24px 36px);transform:scaleX(var(--scroll-progress,0));transform-origin:left}
+/* buttons */
 .btn{position:relative;isolation:isolate;overflow:hidden;transition:transform var(--d-fast) var(--ease-out)}
-.btn.pri{z-index:0}
-.btn.pri::before{content:"";position:absolute;inset:0;background:#eab955;transform:scaleX(0);transform-origin:left;transition:transform var(--d-base) var(--ease-out);z-index:-1}
-.btn.pri:hover{background:var(--saf);transform:translateY(-2px)}
+.btn.pri::before{content:"";position:absolute;inset:0;z-index:-1;background:#ff7ac9;transform:scaleX(0);transform-origin:left;transition:transform var(--d-base) var(--ease-out)}
+.btn.pri:hover{background:var(--mad);transform:translateY(-2px)}
 .btn.pri:hover::before{transform:scaleX(1)}
 .btn.pri:active{transform:scale(.97)}
-.btn.sec::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:conic-gradient(from 0deg,var(--saf) 0 25%,var(--terra) 25% 50%,var(--wool) 50% 75%,var(--saf) 75%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity var(--d-base) var(--ease-out);z-index:-1}
-.btn.sec:hover::before{opacity:1}
+.btn .ripple{position:absolute;z-index:-1;width:24px;height:24px;background:var(--saf);transform:translate(-50%,-50%) rotate(45deg) scale(0);pointer-events:none;animation:goel 450ms var(--ease-out) forwards}
+.btn.sec{overflow:visible}
+.btn.sec::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:conic-gradient(from 0deg,var(--saf) var(--sew),transparent 0);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);pointer-events:none;transition:--sew var(--d-slow) var(--ease-out)}
+.btn.sec:hover::before,.btn.sec:focus-visible::before{--sew:360deg}
+.btn.sec:hover{background:color-mix(in srgb,var(--wool) 8%,transparent)}
+form .btn.success,form .btn.success:hover{background:var(--grn);color:var(--onAcc);transform:none}
+form .btn.success::before{transform:scaleX(0)}
+form .btn.success::after{content:"\2713";margin-inline-start:8px}
+/* language bead */
 .lang{position:relative;padding:3px}
-.lang::before{content:"";position:absolute;z-index:0;left:4px;top:4px;width:44px;height:40px;border-radius:999px;background:var(--saf);transform:translateX(calc(var(--lang-index,0)*44px));transition:transform var(--d-base) var(--ease-knot)}
-.lang button{position:relative;z-index:1;min-width:44px;min-height:44px}
-.lang button[aria-pressed=true]{background:transparent;color:#1f1606}
-.cats button{position:relative;overflow:hidden;transition:color var(--d-fast),border-color var(--d-fast),clip-path var(--d-base) var(--ease-out)}
-.cats button[aria-pressed=true]{clip-path:inset(0)}
-.cats button.active-in{animation:cat-fill var(--d-base) var(--ease-out) both}
-.cats button:not([aria-pressed=true])::after{content:"";position:absolute;inset:auto 10px 0;height:2px;background:var(--mad);transform:scaleX(0);transform-origin:left;transition:transform var(--d-base) var(--ease-out)}
+.lang::before{content:"";position:absolute;left:3px;top:3px;width:44px;height:44px;border-radius:999px;background:var(--saf);transform:translateX(calc(var(--lang-index,0)*44px));transition:transform var(--d-base) var(--ease-knot)}
+.lang button{position:relative;z-index:1;width:44px;min-width:44px;min-height:44px;padding:0}
+.lang button[aria-pressed=true]{background:transparent;color:var(--onAcc)}
+/* topics: indigo fill grows from the centre, pink thread on hover */
+.cats button{position:relative;isolation:isolate;overflow:hidden}
+.cats button[aria-pressed=true]{background:var(--panel)}
+.cats button[aria-pressed=true]::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--ind)}
+.cats button:not([aria-pressed=true])::after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:2px;background:var(--mad);transform:scaleX(0);transform-origin:left;transition:transform var(--d-base) var(--ease-out)}
 .cats button:not([aria-pressed=true]):hover::after{transform:scaleX(1)}
+/* word of the day flips on X */
 .whead{perspective:900px}
-.wod{transform-style:preserve-3d;transform-origin:center}
-.btn.sec:hover{background:none}
-.wod small{color:#f7d6cf}
-.w{position:relative;transition:transform var(--d-base) var(--ease-out),border-color var(--d-fast),filter var(--d-base) var(--ease-out)}
-.w::after{content:"";position:absolute;right:13px;top:13px;width:9px;height:9px;border:1px solid var(--terra);transform:rotate(45deg) scale(0);opacity:0;transition:transform var(--d-base) var(--ease-knot),opacity var(--d-fast)}
-.w:hover{transform:translateY(-3px);border-color:var(--mad);background:color-mix(in srgb,var(--panel) 88%,var(--rose))}
-.w:hover::after{transform:rotate(45deg) scale(1);opacity:1}
-mark{background:var(--rose);color:var(--walnut);padding:0 .08em;border-radius:2px}
+.wod{transform-origin:center}
+/* word cards */
+.w{position:relative;transition:transform var(--d-base) var(--ease-out)}
+.w::after{content:"";position:absolute;right:12px;top:12px;width:9px;height:9px;background:var(--mad);transform:rotate(45deg) scale(0);transition:transform var(--d-base) var(--ease-knot);pointer-events:none}
+.w:hover{transform:translateY(-3px);border-color:var(--mad)}
+.w:hover::after{transform:rotate(45deg) scale(1)}
+.grid.vt .w{view-transition-name:var(--vt)}
+::view-transition-group(*){animation-duration:var(--d-base);animation-timing-function:var(--ease-out)}
 .practice .w .mean,.practice .w .lit{transition:filter var(--d-base) var(--ease-out)}
-.practice .w.shown{animation:nod 240ms var(--ease-knot)}
-.up{min-height:44px}
-.req button,.w .rm{min-height:44px}
-.route::after{content:"";position:absolute;z-index:0;left:10%;top:31px;width:80%;height:4px;background:var(--mad);transform:scaleX(var(--route-progress,0));transform-origin:left;transition:transform var(--d-slow) var(--ease-out);pointer-events:none}
+.w.pulse::before{content:"";position:absolute;inset:-1px;border:2px solid var(--grn);border-radius:inherit;opacity:0;pointer-events:none}
+mark{background:var(--saf);color:var(--onAcc);padding:0 .08em;border-radius:2px}
+.up,.req button,.w .rm{min-height:44px}
+.w .ft a,.res a,footer a{display:inline-flex;align-items:center;min-height:44px}
+/* sounds */
+#sounds td.big{transform-origin:left center;transition:transform var(--d-fast) var(--ease-knot)}
+#sounds tr:hover td.big{transform:scale(1.08)}
+/* route */
+.route::after{content:"";position:absolute;left:10%;top:31px;width:80%;height:4px;background:var(--mad);transform:scaleX(var(--route-progress,0));transform-origin:left;transition:transform var(--d-slow) var(--ease-out);pointer-events:none}
 .st{z-index:1;min-height:44px}
-.st i{transition:transform var(--d-base) var(--ease-knot),background var(--d-fast)}
+.st i{position:relative;transition:transform var(--d-base) var(--ease-knot)}
 .st[data-step="4"] i{border-color:var(--grn);color:var(--grnT)}
 .st[data-step="4"] i::after{content:"";position:absolute;width:8px;height:8px;right:0;top:0;background:var(--grnT);transform:rotate(45deg)}
-.st i{position:relative}
+.route .st[aria-selected=true] i{background:var(--mad);color:var(--onAcc);transform:scale(1.1)}
+/* place: a vanilla göl in the corner */
 .place{position:relative;overflow:hidden}
-.place::after{content:"";position:absolute;right:16px;top:16px;width:12px;height:12px;border:1px solid var(--terra);transform:rotate(45deg);opacity:1}
-.place.in::after{opacity:1;transform:rotate(45deg);transition:transform var(--d-slow) var(--ease-knot),opacity var(--d-base)}
+.place h3{padding-inline-end:30px}
+.place::after{content:"";position:absolute;right:18px;top:20px;width:14px;height:14px;background:var(--saf);box-shadow:inset 0 0 0 3px var(--saf),inset 0 0 0 5px var(--ind);transform:rotate(45deg)}
+/* ethics: green warp thread on the left */
 .eth>div{position:relative;overflow:hidden}
-.eth>div::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--grn);transform:scaleY(1);transform-origin:top;transition:transform var(--d-slow) var(--ease-out)}
-.eth.in>div::before{transform:scaleY(1)}
-.phases li{position:relative;border-top:0}
-.phases li::after{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--grn);transform:scaleX(1);transform-origin:left}
-.phases.in li.entry::after{animation:weft-in var(--d-slow) var(--ease-out) both;animation-delay:calc(var(--i,0)*120ms)}
-.phases li::before{color:var(--saf)}
-.req{transform-origin:top}
-.btn .ripple{position:absolute;width:12px;height:12px;border:1px solid var(--wool);background:#f6efe266;transform:translate(-50%,-50%) rotate(45deg) scale(0);opacity:1;pointer-events:none;animation:goel 450ms ease-out forwards}
-form .btn.success,form .btn.success:hover{background:var(--grn);color:var(--wool);transform:none}
-form .btn.success::before{transform:scaleX(0)}
-form .btn.success::after{content:"✓";margin-inline-start:8px}
-.w audio.attached-audio{outline:2px solid var(--grnT);border-radius:8px;animation:audio-knot 700ms var(--ease-out)}
-.read-progress{position:absolute;left:0;right:0;bottom:0;height:4px;overflow:hidden;pointer-events:none}
-.read-progress::before{content:"";display:block;width:100%;height:100%;background:repeating-linear-gradient(90deg,var(--mad) 0 12px,#eab955 12px 24px,var(--wool) 24px 36px);transform:scaleX(var(--scroll-progress,0));transform-origin:left}
-nav{position:sticky;box-shadow:none;transition:box-shadow var(--d-base) var(--ease-out)}
-nav.scrolled{box-shadow:0 6px 18px #111c4033}
-nav.scrolled .wrap{transform:scale(.985)}
-nav.scrolled .wrap a,nav.scrolled .wrap button{transform:scale(1.016)}
-nav .wrap{transform-origin:top center;transition:transform var(--d-base) var(--ease-out)}
+.eth>div::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--grn);transform-origin:top}
+/* roadmap phases: indigo weft over the seagrass ground */
+.phases li{position:relative;border-top:0;padding-top:18px}
+.phases li::after{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--onAcc);transform-origin:left}
+/* headings: a 48px thread under every h2 */
+section.band h2{position:relative;padding-bottom:14px;view-timeline-name:--h2}
+section.band h2::after{content:"";position:absolute;left:0;bottom:2px;width:48px;height:2px;background:var(--mad);transform-origin:left}
+section.band.road h2::after{background:var(--onAcc)}
+/* hero letters and scripts */
+.hero h1 .wd{display:inline-block;white-space:nowrap}
+.hero h1 .lm{display:inline-block;overflow:hidden;vertical-align:top;padding-block:.08em;margin-block:-.08em}
+.hero h1 .lt{display:inline-block}
 .scripts span{display:inline-block}
-.hero h1 .letter-mask{display:inline-block;overflow:hidden;vertical-align:baseline}
-.hero h1 .letter{display:inline-block}
-.w .ft a,.res a,footer a{display:inline-flex;align-items:center;min-height:44px}
+.fact strong,.fact .count-num{font-variant-numeric:tabular-nums}
+.fact .count-num{display:inline-block;text-align:end}
+.fact .status{display:inline-block}
+.fact strong span{color:inherit;font-size:inherit}
+/* join form */
 form label{position:relative}
 form label::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:2px;background:var(--mad);transform:scaleX(0);transform-origin:center;transition:transform var(--d-base) var(--ease-out)}
 form label:focus-within::after{transform:scaleX(1)}
-.sounds tr:hover td.big{transform:scale(1.08);transform-origin:left center;transition:transform var(--d-fast) var(--ease-knot)}
-.fact strong{font-variant-numeric:tabular-nums}
-.fact .status{display:inline-block}
-.fact .count-num{font-variant-numeric:tabular-nums;display:inline-block;text-align:end}
-section.band h2{position:relative;padding-bottom:14px}
-section.band h2::after{content:"";position:absolute;left:0;bottom:2px;width:48px;height:2px;background:var(--mad);transform:scaleX(0);transform-origin:left}
-.reqs .req.new{animation:req-in var(--d-base) var(--ease-out) both}
-@keyframes thread-in{from{clip-path:inset(0 100% 0 0);transform:translateY(12px)}to{clip-path:inset(0);transform:translateY(0)}}
-@keyframes weave-line{to{transform:scaleX(1)}}
-@keyframes letter-rise{from{clip-path:inset(100% 0 0);transform:translateY(35%)}to{clip-path:inset(0);transform:translateY(0)}}
-@keyframes script-in{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
-@keyframes script-rtl{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
-@keyframes stagger-in{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
-@keyframes stagger-rtl{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
-@keyframes req-in{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes audio-knot{50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--grnT) 35%,transparent)}}
-@keyframes nod{0%,100%{transform:rotateZ(-1deg)}50%{transform:rotateZ(1deg)}}
-@keyframes weft-in{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes cat-fill{from{clip-path:inset(50% 50%)}to{clip-path:inset(0)}}
+.req{transform-origin:top}
+
 @keyframes goel{to{transform:translate(-50%,-50%) rotate(45deg) scale(2.5);opacity:0}}
-@media (prefers-reduced-motion:no-preference){
- html.js .hero h1 .letter{display:inline-block;animation:letter-rise 600ms var(--ease-out) both;animation-delay:calc(var(--i,0)*40ms)}
- html.js .scripts span{opacity:0;animation:script-in var(--d-slow) var(--ease-out) both;animation-delay:calc(180ms + var(--i,0)*180ms)}
- html.js .scripts span[dir=rtl]{animation-name:script-rtl}
- html.js section.band h2::after{animation:weave-line var(--d-slow) var(--ease-out) both;animation-play-state:paused}
- html.js section.band h2{animation:thread-in var(--d-slow) var(--ease-out) both;animation-play-state:paused}
- @keyframes runner-parallax{to{transform:translateY(30px);filter:brightness(.78)}}
- html.js .facts .status{clip-path:inset(0 100% 0 0)}
- @keyframes status-reveal{to{clip-path:inset(0)}}
- html.js .eth>div::before{transition:none}
- html.js .route.knot .st[aria-selected=true] i{animation:knot-tie 360ms var(--ease-knot)}
- html.js .place:not(.in)::after{opacity:0;transform:rotate(0)}
- html.js .eth:not(.in)>div::before{transform:scaleY(0)}
- html.js .phases:not(.in) li::after{transform:scaleX(0)}
- html.js .phases.in li.entry::before{animation:phase-num var(--d-base) var(--ease-knot) both;animation-delay:calc(var(--i,0)*120ms)}
- @keyframes phase-num{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
- @keyframes knot-tie{50%{transform:scale(1.2)}}
- @supports (animation-timeline:view()){
-  html.js section.band h2{animation-timeline:view();animation-range:entry 0% cover 30%;animation-play-state:running}
-  html.js section.band h2::after{animation-timeline:view();animation-range:entry 0% cover 30%;animation-play-state:running}
-  html.js .runner{animation:runner-parallax linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
-  html.js .grid .w.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(min(var(--i,0),11)*30ms);animation-timeline:view();animation-range:entry 0% cover 30%}
-  html.js .scriptcards .sc.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-timeline:view();animation-range:entry 0% cover 30%}
-  html.js .scriptcards .sc:first-child.entry{animation-name:stagger-rtl}
-  html.js .facts .fact.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-timeline:view();animation-range:entry 0% cover 30%}
-  html.js .hyp .entry,html.js .eth .entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(var(--i,0)*90ms);animation-timeline:view();animation-range:entry 0% cover 30%}
-  html.js #sounds tbody tr.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(var(--i,0)*70ms);animation-timeline:view();animation-range:entry 0% cover 30%}
-  html.js .facts .status{animation:status-reveal linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
-  html.js .phases li.entry::after{animation:weft-in linear both;animation-timeline:view();animation-range:entry 0% cover 30%;animation-delay:calc(var(--i,0)*120ms)}
-  @supports (animation-timeline:scroll(root)){
-   html.js .read-progress::before{animation:read-progress linear both;animation-timeline:scroll(root)}
-  }
-  @keyframes read-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+@keyframes from-left{from{opacity:0;transform:translateX(-18px)}}
+@keyframes from-right{from{opacity:0;transform:translateX(18px)}}
+@keyframes letter-up{from{transform:translateY(110%)}}
+@keyframes weave-in{from{clip-path:inset(-.3em 100% -.3em 0)}to{clip-path:inset(-.3em -.3em -.3em -.3em)}}
+@keyframes thread-x{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes thread-down{from{transform:scaleY(0)}}
+@keyframes status-reveal{from{clip-path:inset(-.2em 100% -.2em 0)}to{clip-path:inset(-.2em -.2em -.2em -.2em)}}
+@keyframes phase-num{from{opacity:0;transform:scale(.6)}}
+@keyframes knot-tie{0%{transform:scale(.7) rotate(-25deg)}100%{transform:scale(1.1)}}
+@keyframes cat-fill{from{clip-path:inset(0 50%)}to{clip-path:inset(0)}}
+@keyframes nod{25%{transform:rotateZ(-1deg)}75%{transform:rotateZ(1deg)}}
+@keyframes knot-pulse{0%{opacity:0;transform:scale(1)}35%{opacity:1}100%{opacity:0;transform:scale(1.03)}}
+@keyframes req-in{from{opacity:0;transform:translateY(-14px)}}
+@keyframes grow-x{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes runner-drift{to{transform:translateY(30px)}}
+
+@media screen and (prefers-reduced-motion:no-preference){
+ /* hero */
+ html.js .hero h1 .lt{animation:letter-up 650ms var(--ease-out) backwards;animation-delay:calc(var(--i,0)*40ms)}
+ html.js .scripts span{animation:from-left var(--d-slow) var(--ease-out) backwards;animation-delay:calc(450ms + var(--i,0)*220ms)}
+ html.js .scripts span[dir=rtl]{animation-name:from-right}
+ html.js .runner{transform:translateY(calc(var(--runner-p,0)*30px))}
+ /* scroll-linked: progress strip and runner parallax */
+ @supports (animation-timeline:scroll()){
+  html.js .read-progress::before{animation:grow-x linear both;animation-timeline:scroll(root)}
+  html.js .runner{transform:none;animation:runner-drift linear both;animation-timeline:scroll(root);animation-range:0px 600px}
  }
+ /* h2 weave: view() where supported, IntersectionObserver (.in) otherwise */
+ @supports (animation-timeline:view()){
+  html.js section.band h2{animation:weave-in linear both;animation-timeline:--h2;animation-range:entry 0% cover 30%}
+  html.js section.band h2::after{animation:thread-x linear both;animation-timeline:--h2;animation-range:entry 30% cover 35%}
+ }
+ @supports not (animation-timeline:view()){
+  html.js section.band:not(.in) h2{clip-path:inset(-.3em 100% -.3em 0)}
+  html.js section.band:not(.in) h2::after{transform:scaleX(0)}
+  html.js section.band.in h2{animation:weave-in var(--d-slow) var(--ease-out) backwards}
+  html.js section.band.in h2::after{animation:thread-x var(--d-slow) var(--ease-out) backwards;animation-delay:250ms}
+ }
+ /* cascades: time-based stagger once the container gets .in (scroll timelines ignore animation-delay) */
+ html.js .facts:not(.in) .fact.entry,html.js .scriptcards:not(.in) .sc.entry,html.js .grid:not(.in) .w.entry,
+ html.js #sounds:not(.in) tr.entry,html.js .hyp:not(.in)>.entry,html.js .eth:not(.in)>.entry{opacity:0}
+ html.js .facts.in .fact.entry{animation:rise var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--i,0)*80ms)}
+ html.js .facts:not(.in) .fact.entry .status{clip-path:inset(-.2em 100% -.2em 0)}
+ html.js .facts.in .fact.entry .status{animation:status-reveal var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--i,0)*80ms + 300ms)}
+ html.js .scriptcards.in .sc.entry{animation:from-left var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--i,0)*130ms)}
+ html.js .scriptcards.in .sc.entry.rtl{animation-name:from-right}
+ html.js .place:not(.in)::after{transform:rotate(0) scale(.6);opacity:0}
+ html.js .place::after{transition:transform var(--d-slow) var(--ease-knot),opacity var(--d-base) var(--ease-out)}
+ html.js .grid.in .w.entry{animation:rise var(--d-slow) var(--ease-out) backwards;animation-delay:calc(min(var(--i,0),11)*30ms)}
+ html.js .practice .w.shown{animation:nod 300ms var(--ease-knot)}
+ html.js .w.pulse::before{animation:knot-pulse 700ms var(--ease-out)}
+ html.js #sounds.in tr.entry{animation:from-left var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--i,0)*70ms)}
+ html.js .cats button.active-in::before{animation:cat-fill var(--d-base) var(--ease-out) backwards}
+ html.js .route.knot .st[aria-selected=true] i{animation:knot-tie 420ms var(--ease-knot)}
+ html.js .hyp.in>.entry,html.js .eth.in>.entry{animation:rise var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--i,0)*90ms)}
+ html.js .eth:not(.in)>.entry::before{transform:scaleY(0)}
+ html.js .eth.in>.entry::before{animation:thread-down var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--i,0)*90ms + 250ms)}
+ html.js .phases:not(.in) li.entry::after{transform:scaleX(0)}
+ html.js .phases:not(.in) li.entry::before{opacity:0}
+ html.js .phases.in li.entry::after{animation:thread-x var(--d-slow) var(--ease-out) backwards;animation-delay:calc(var(--i,0)*140ms)}
+ html.js .phases.in li.entry::before{animation:phase-num var(--d-base) var(--ease-knot) backwards;animation-delay:calc(var(--i,0)*140ms + 120ms)}
+ html.js .reqs .req.new{animation:req-in var(--d-base) var(--ease-out) backwards}
 }
 @media (prefers-reduced-motion:reduce){
- *,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:opacity 150ms linear!important;transform:none!important;filter:none!important;clip-path:none!important}
- .runner{transform:none!important}
- .fact .status{opacity:1}
- .read-progress::before{transform:scaleX(var(--scroll-progress,0))}
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation:none!important;transition-property:opacity!important;transition-duration:150ms!important;transition-delay:0s!important}
+ .btn.pri:hover,.btn.pri:active,.w:hover,#sounds tr:hover td.big{transform:none}
 }
-html.js.no-scroll-timeline:not(.motion-off) section.band:not(.in) h2{opacity:0;transform:translateY(12px);clip-path:inset(0 100% 0 0)}
-html.js.no-scroll-timeline:not(.motion-off) section.band.in h2{animation:thread-in var(--d-slow) var(--ease-out) both}
-html.js.no-scroll-timeline:not(.motion-off) section.band.in h2::after{animation:weave-line var(--d-slow) var(--ease-out) both}
-html.js.no-scroll-timeline:not(.motion-off) .scriptcards:not(.in) .sc.entry,
-html.js.no-scroll-timeline:not(.motion-off) .facts:not(.in) .fact.entry,
-html.js.no-scroll-timeline:not(.motion-off) .hyp:not(.in) .entry,
-html.js.no-scroll-timeline:not(.motion-off) .eth:not(.in) .entry,
-html.js.no-scroll-timeline:not(.motion-off) #sounds:not(.in) tbody tr.entry,
-html.js.no-scroll-timeline:not(.motion-off) .grid:not(.in) .w.entry{opacity:0;transform:translateX(-16px)}
-html.js.no-scroll-timeline:not(.motion-off) .grid.in .w.entry,
-html.js.no-scroll-timeline:not(.motion-off) .scriptcards.in .sc.entry,
-html.js.no-scroll-timeline:not(.motion-off) .facts.in .fact.entry,
-html.js.no-scroll-timeline:not(.motion-off) .hyp.in .entry,
-html.js.no-scroll-timeline:not(.motion-off) .eth.in .entry,
-html.js.no-scroll-timeline:not(.motion-off) #sounds.in tbody tr.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(min(var(--i,0),11)*30ms)}
-html.js.no-scroll-timeline:not(.motion-off) .scriptcards.in .sc:first-child.entry{animation-name:stagger-rtl}
-html.js.no-scroll-timeline:not(.motion-off) .facts:not(.in) .status{clip-path:inset(0 100% 0 0)}
-html.js.no-scroll-timeline:not(.motion-off) .facts.in .status{animation:status-reveal var(--d-slow) var(--ease-out) both}
-html.js.motion-off section.band h2,html.js.motion-off section.band h2::after,
-html.js.motion-off .scriptcards .sc,html.js.motion-off .facts .fact,
-html.js.motion-off .grid .w,html.js.motion-off .hyp>div,html.js.motion-off .eth>div,
-html.js.motion-off #sounds tbody tr{opacity:1;transform:none;clip-path:none}
-html.js.motion-off *{animation:none!important}
 @media(max-width:600px){.route::after{top:22px}}
 </style>
 </head>
@@ -611,6 +622,7 @@ let sel=0,cat="all",wodI=Math.floor(Date.now()/864e5)%W.length;
 let reqs=store.get("jai-reqs",[]);if(!Array.isArray(reqs))reqs=[];
 let mine=store.get("jai-words",[]);if(!Array.isArray(mine))mine=[];
 const clips=new Map();
+let pulseKey=null,vtRuns=0;
 const orig=new Map();
 document.querySelectorAll("[data-t]").forEach(el=>orig.set(el,el.innerHTML));
 
@@ -618,13 +630,13 @@ const card=(w,i,q,index)=>{
  const U=D.ui[lang],li=LI[lang],lit=w[li+3];
  const src=w[9]==="p"?`<a href="${SRC.p}">${U.hear}</a>`:`<a href="${SRC[w[9]]}">${U.src}</a>`;
  const clip=clips.get(w[0]);
- const entered=$("#grid").dataset.seen==="true",entry=!entered&&index<12?" entry":"";
- return `<article class="w${entry}" data-i="${i}" style="--i:${index};view-transition-name:word-${i}"><span class="cat">${esc(D.cats[lang][w[2]])}</span><span class="lat">${marked(w[0],q)}</span>${w[1]?`<span class="cyr">${marked(w[1],q)}</span>`:""}<p class="mean" title="${esc(U.tap)}">${marked(w[li],q)}</p>${lit?`<p class="lit">${esc(U.lit)}: ${marked(lit,q)}</p>`:""}<div class="ft">${src}<label class="up">${esc(U.att)}<input type="file" accept="audio/*" data-k="${esc(w[0])}"></label></div>${clip?`<audio controls class="attached-audio" src="${clip}"></audio>`:""}</article>`;
+ const entered=$("#grid").dataset.seen==="true",entry=entered?"":" entry",pulse=clip&&pulseKey===w[0]?" pulse":"";
+ return `<article class="w${entry}${pulse}" data-i="${i}" style="--i:${index};--vt:word-${i}"><span class="cat">${esc(D.cats[lang][w[2]])}</span><span class="lat">${marked(w[0],q)}</span>${w[1]?`<span class="cyr">${marked(w[1],q)}</span>`:""}<p class="mean" title="${esc(U.tap)}">${marked(w[li],q)}</p>${lit?`<p class="lit">${esc(U.lit)}: ${marked(lit,q)}</p>`:""}<div class="ft">${src}<label class="up">${esc(U.att)}<input type="file" accept="audio/*" data-k="${esc(w[0])}"></label></div>${clip?`<audio controls class="attached-audio" src="${clip}"></audio>`:""}</article>`;
 };
 const mineCard=(m,i,q,index)=>{
  const U=D.ui[lang],clip=clips.get(m.w);
- const entry=$("#grid").dataset.seen==="true"||index>=12?"":" entry";
- return `<article class="w mine${entry}" style="--i:${index};view-transition-name:family-${i}"><span class="cat">${esc(U.mineTag)}</span><span class="lat">${marked(m.w,q)}</span>${m.c?`<span class="cyr">${marked(m.c,q)}</span>`:""}<p class="mean">${marked(m.m,q)}</p>${m.f?`<p class="lit">${marked(m.f,q)}</p>`:""}<div class="ft"><label class="up">${esc(U.att)}<input type="file" accept="audio/*" data-k="${esc(m.w)}"></label><button type="button" class="rm" data-mrm="${i}">${esc(U.rm)}</button></div>${clip?`<audio controls class="attached-audio" src="${clip}"></audio>`:""}</article>`;
+ const entry=$("#grid").dataset.seen==="true"?"":" entry",pulse=clip&&pulseKey===m.w?" pulse":"";
+ return `<article class="w mine${entry}${pulse}" style="--i:${index};--vt:family-${i}"><span class="cat">${esc(U.mineTag)}</span><span class="lat">${marked(m.w,q)}</span>${m.c?`<span class="cyr">${marked(m.c,q)}</span>`:""}<p class="mean">${marked(m.m,q)}</p>${m.f?`<p class="lit">${marked(m.f,q)}</p>`:""}<div class="ft"><label class="up">${esc(U.att)}<input type="file" accept="audio/*" data-k="${esc(m.w)}"></label><button type="button" class="rm" data-mrm="${i}">${esc(U.rm)}</button></div>${clip?`<audio controls class="attached-audio" src="${clip}"></audio>`:""}</article>`;
 };
 const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ']/g,"");
 const renderWords=(withTransition=false)=>{
@@ -637,7 +649,10 @@ const renderWords=(withTransition=false)=>{
   $("#grid").innerHTML=html||`<p class="empty">${esc(D.ui[lang].none)}</p>`;
   const n=base.length+own.length,r10=n%10,r100=n%100;$("#count").textContent=`${n} ${lang==="ru"?(r10===1&&r100!==11?"слово":r10>=2&&r10<=4&&(r100<12||r100>14)?"слова":"слов"):D.ui[lang].n}`;
  };
- if(withTransition&&document.startViewTransition&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.startViewTransition(paint);else paint();
+ if(!withTransition||!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches){paint();return}
+ const grid=$("#grid");vtRuns++;grid.classList.add("vt");
+ const done=()=>{if(--vtRuns===0)grid.classList.remove("vt")};
+ try{const vt=document.startViewTransition(paint);vt.ready.catch(()=>{});vt.updateCallbackDone.catch(()=>{});vt.finished.then(done,done)}catch(e){done();paint()}
 };
 const renderCats=(animateActive=false)=>{
  const keys=["all","greet","family","love","body","num","food","say"].concat(mine.length?["mine"]:[]);
@@ -654,7 +669,7 @@ const renderSounds=()=>{
  $("#sounds").innerHTML=`<thead><tr>${h.map(x=>`<th scope="col">${esc(x)}</th>`).join("")}</tr></thead><tbody>${D.sounds.rows.map((r,i)=>`<tr class="${entered?"settled":"entry"}" style="--i:${i}"><td class="big">${esc(r[0])}</td><td class="big">${esc(r[1])}</td><td>${esc(r[2][lang])}</td><td style="white-space:nowrap">${esc(r[3])}</td></tr>`).join("")}</tbody>`;
 };
 const renderFacts=()=>{
- const box=$("#facts"),counted=box.dataset.counted==="true"||matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.classList.contains("motion-off");
+ const box=$("#facts"),counted=box.dataset.counted==="true"||matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver"in window);
  if(counted)box.dataset.counted="true";
  box.innerHTML=D.facts[lang].map((f,i)=>{
   const value=String(f[0]).replace(/\d+/g,n=>`<span class="count-num" style="width:${n.length}ch" data-to="${n}">${counted?n:0}</span>`);
@@ -718,8 +733,8 @@ const drawRunner=()=>{
  const Wd=svg.clientWidth,H=svg.clientHeight;if(!Wd||!H)return;
  let seed=7;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
  const b=Math.round(Math.max(16,H*.11)),k=Math.max(5,Math.round(H/40));
- let o=`<defs><clipPath id="lit"><rect id="litR" x="0" y="0" width="0" height="${H}"/></clipPath></defs><rect width="${Wd}" height="${H}" fill="var(--mad)"/>`;
- const tri=(y,up)=>{let s="";for(let x=0;x<Wd;x+=b){s+=`<path d="M${x} ${up?y+b:y}L${x+b/2} ${up?y:y+b}L${x+b} ${up?y+b:y}Z" fill="var(--saf)"/><rect x="${x+b/2-2}" y="${y+b/2-2}" width="4" height="4" fill="var(--wool)"/>`}return s};
+ let o=`<defs><clipPath id="lit"><rect id="litR" x="0" y="0" width="0" height="${H}"/></clipPath></defs><rect width="${Wd}" height="${H}" fill="var(--grn)"/>`;
+ const tri=(y,up)=>{let s="";for(let x=0;x<Wd;x+=b){s+=`<path d="M${x} ${up?y+b:y}L${x+b/2} ${up?y:y+b}L${x+b} ${up?y+b:y}Z" fill="var(--saf)"/><rect x="${x+b/2-2}" y="${y+b/2-2}" width="4" height="4" fill="var(--ind)"/>`}return s};
  o+=tri(0,false)+tri(H-b,true);
  o+=`<rect x="0" y="${b+4}" width="${Wd}" height="${H-2*b-8}" fill="var(--wool)"/><rect x="0" y="${b+8}" width="${Wd}" height="${H-2*b-16}" fill="var(--ind)"/>`;
  const top=b+8,fh=H-2*b-16,mid=top+fh/2,amp=fh/2-k*1.5,R=Math.min(fh*.42,70,Wd*.07);
@@ -735,7 +750,7 @@ const drawRunner=()=>{
   h=Math.max(k,Math.round(h/k)*k);
   bars+=`<rect x="${x.toFixed(1)}" y="${(mid-h).toFixed(1)}" width="${k}" height="${(2*h).toFixed(1)}"/>`;
  }
- o+=`<g fill="var(--wool)" opacity=".28">${bars}</g><g fill="var(--saf)" clip-path="url(#lit)">${bars}</g><rect id="head" x="0" y="${top}" width="3" height="${fh}" fill="var(--wool)"/>`;
+ o+=`<g fill="var(--wool)" opacity=".28">${bars}</g><g fill="var(--mad)" clip-path="url(#lit)">${bars}</g><rect id="head" x="0" y="${top}" width="3" height="${fh}" fill="var(--wool)"/>`;
  svg.setAttribute("viewBox",`0 0 ${Wd} ${H}`);svg.innerHTML=o;lit=$("#litR");
  if(motionPreference.matches)setHead(.62);
 };
@@ -756,39 +771,27 @@ syncRunnerMotion();
 /* events */
 const root=document.documentElement;
 const prefersReducedMotion=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
-const reduce=prefersReducedMotion();
-const supportsView=window.CSS&&CSS.supports("animation-timeline: view()");
-if(reduce)root.classList.add("motion-off");
-if(!supportsView)root.classList.add("no-scroll-timeline");
-const title=$(".hero h1"),titleText=title.textContent;
-title.innerHTML=[...titleText].map((letter,i)=>`<span class="letter-mask"><span class="letter" style="--i:${i}">${letter===" "?"&nbsp;":letter}</span></span>`).join("");
+/* hero title: letters rise from under a mask, words stay unbreakable */
+const title=$(".hero h1");let letterI=0;
+title.innerHTML=title.textContent.trim().split(/\s+/).map(word=>`<span class="wd" aria-hidden="true">${[...word].map(ch=>`<span class="lm"><span class="lt" style="--i:${letterI++}">${esc(ch)}</span></span>`).join("")}</span>`).join(" ");
 $(".scripts").querySelectorAll("span").forEach((el,i)=>el.style.setProperty("--i",String(i)));
-document.querySelectorAll(".scriptcards .sc").forEach((el,i)=>{el.classList.add("entry");el.style.setProperty("--i",String(i))});
-const motionTargets="section.band,.scriptcards,.facts,.grid,.hyp,.eth,.phases,.route,#sounds,.reqs,.place";
-let motionObserver=null;
-if("IntersectionObserver"in window&&!reduce){
- motionObserver=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-   if(!entry.isIntersecting)return;
-   const el=entry.target;el.classList.add("in");el.dataset.seen="true";motionObserver.unobserve(el);
-   if(el.id==="facts")animateCounters(el);
-  });
- },{threshold:.01});
-}else root.classList.add("motion-off");
-const observeMotion=()=>{
- if(!motionObserver)return;
- document.querySelectorAll(motionTargets).forEach(el=>{if(el.dataset.seen!=="true")motionObserver.observe(el)});
-};
+document.querySelectorAll(".scriptcards .sc").forEach((el,i)=>{el.classList.add("entry");el.classList.toggle("rtl",!!el.querySelector("[dir=rtl]"));el.style.setProperty("--i",String(i))});
+/* one shared observer: marks a container .in once, sets the "seen" flag that setLang() respects, then unobserves */
+const motionTargets="section.band,.scriptcards,.facts,.grid,.hyp,.eth,.phases,#sounds,.place";
+const reveal=el=>{el.classList.add("in");el.dataset.seen="true";if(el.id==="facts")animateCounters(el)};
+const motionObserver="IntersectionObserver"in window?new IntersectionObserver(entries=>entries.forEach(entry=>{
+ if(!entry.isIntersecting)return;motionObserver.unobserve(entry.target);reveal(entry.target);
+}),{rootMargin:"0px 0px -8% 0px"}):null;
+const observeMotion=()=>document.querySelectorAll(motionTargets).forEach(el=>{
+ if(el.dataset.seen==="true")return;if(motionObserver)motionObserver.observe(el);else reveal(el);
+});
+/* scroll fallback for the progress strip and runner parallax (CSS scroll() timelines take over where supported) */
+const nav=document.querySelector("nav"),progressEl=$(".read-progress"),runnerEl=$(".runner");
 const scrollProgress=()=>{
- const max=document.documentElement.scrollHeight-window.innerHeight;
- const value=max>0?Math.min(1,window.scrollY/max):0;
- root.style.setProperty("--scroll-progress",String(value));
- document.querySelector("nav").classList.toggle("scrolled",window.scrollY>40);
- if(motionObserver)document.querySelectorAll(motionTargets).forEach(el=>{
-  if(el.dataset.seen==="true"||el.getBoundingClientRect().bottom>=0)return;
-  el.classList.add("in");el.dataset.seen="true";motionObserver.unobserve(el);
-  if(el.id==="facts")animateCounters(el);
- });
+ const y=window.scrollY,max=root.scrollHeight-window.innerHeight;
+ progressEl.style.setProperty("--scroll-progress",String(max>0?Math.min(1,y/max):0));
+ runnerEl.style.setProperty("--runner-p",String(Math.min(1,Math.max(0,y/600))));
+ nav.classList.toggle("scrolled",y>40);
 };
 let scrollQueued=false;
 window.addEventListener("scroll",()=>{
@@ -796,7 +799,6 @@ window.addEventListener("scroll",()=>{
  requestAnimationFrame(()=>{scrollProgress();scrollQueued=false});
 },{passive:true});
 scrollProgress();
-observeMotion();
 document.querySelector(".lang").addEventListener("click",e=>{const b=e.target.closest("button[data-l]");if(b)setLang(b.dataset.l)});
 $("#cats").addEventListener("click",e=>{const b=e.target.closest("button[data-c]");if(!b)return;cat=b.dataset.c;renderCats(true);renderWords(true)});
 $("#q").addEventListener("input",()=>renderWords(true));
@@ -809,18 +811,19 @@ $("#grid").addEventListener("click",e=>{
 $("#grid").addEventListener("change",e=>{
  const f=e.target.closest("input[type=file]");if(!f||!f.files[0])return;
  const k=f.dataset.k,old=clips.get(k);if(old)URL.revokeObjectURL(old);
- clips.set(k,URL.createObjectURL(f.files[0]));renderWords(); 
+ clips.set(k,URL.createObjectURL(f.files[0]));pulseKey=k;renderWords();pulseKey=null;
+ const again=$("#grid").querySelector(`input[data-k="${CSS.escape(k)}"]`);if(again)again.focus();
 });
+let flipping=false;
 $("#wod").addEventListener("click",e=>{
- const button=e.target.closest("#nextW");if(!button)return;
- const change=()=>{
-  wodI=(wodI+1+Math.floor(Math.random()*(W.length-1)))%W.length;
-  renderWod();const next=$("#nextW");next.focus();
-  if(!prefersReducedMotion()&&$("#wod").animate)$("#wod").animate([{transform:"rotateX(90deg)"},{transform:"rotateX(0deg)"}],{duration:220,easing:"cubic-bezier(.2,.8,.2,1)"});
- };
+ const button=e.target.closest("#nextW");if(!button||flipping)return;
  const wod=$("#wod");
+ const change=()=>{wodI=(wodI+1+Math.floor(Math.random()*(W.length-1)))%W.length;renderWod();$("#nextW").focus()};
  if(prefersReducedMotion()||!wod.animate){change();return}
- wod.animate([{transform:"rotateX(0deg)"},{transform:"rotateX(90deg)"}],{duration:220,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=change;
+ flipping=true;
+ wod.animate([{transform:"rotateX(0deg)"},{transform:"rotateX(90deg)"}],{duration:220,easing:"cubic-bezier(.4,0,1,1)"}).finished
+  .catch(()=>{}).then(()=>{change();return wod.animate([{transform:"rotateX(90deg)"},{transform:"rotateX(0deg)"}],{duration:220,easing:"cubic-bezier(.2,.8,.2,1)"}).finished})
+  .catch(()=>{}).then(()=>{flipping=false});
 });
 const shake=field=>{
  if(prefersReducedMotion()||!field.animate)return;
