@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JUHURI AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE occasion: a community heritage project, warm and serious, made by students with their elders
+   IDEA a Quba carpet runner: the speech of elders woven into it as a waveform, knot by knot
+   PICTURE full-width woven runner with a playhead lighting the waveform; below, the word cards are the working heart
+   COLOUR indigo ground, madder red support, saffron accent, wool white panels; same idea at night
+   TYPE Unbounded (wide, carved display) + Manrope (text), both with Cyrillic and Azerbaijani letters
+   LAYOUT laptop: title band over the runner, dictionary as a dense card grid; phone: stacked, filters wrap */
+:root{color-scheme:light dark;--bg:light-dark(#faf5ec,#0e1430);--panel:light-dark(#fffdf8,#18214a);--ink:light-dark(#231a17,#f3ecdf);--soft:light-dark(#5e5048,#b9b3c6);--line:light-dark(#e2d5bf,#2c3768);--tint:light-dark(#f1e7d6,#121a3d);--ind:#1a2b5e;--ind2:#111c40;--mad:#a62d2b;--saf:#e0a93b;--wool:#f6efe2;--madT:light-dark(#a62d2b,#ff8a7a);--grn:#2f6f64;--grnT:light-dark(#2f6f64,#7cc7b4);--rose:#e9b8a6;--walnut:#231a17;--terra:#b5543a;--ease-out:cubic-bezier(.2,.8,.2,1);--ease-knot:cubic-bezier(.34,1.56,.64,1);--d-fast:160ms;--d-base:320ms;--d-slow:700ms}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Manrope,"Segoe UI",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Unbounded,Manrope,system-ui,sans-serif;line-height:1.08;letter-spacing:-.02em;text-wrap:balance;margin:0}
+h2{font-size:clamp(28px,3.6vw,44px);font-weight:600}
+h3{font-size:19px;font-weight:600;letter-spacing:-.01em}
+p{margin:0 0 14px;max-width:66ch}
+a{color:inherit}
+.band{padding-block:clamp(40px,6vw,88px);padding-inline:max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.lead{font-size:18px;color:var(--soft)}
+.note{font-size:13px;color:var(--soft);margin-top:12px}
+button,input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--saf);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:999px;border:2px solid transparent;font-weight:700;text-decoration:none;cursor:pointer}
+.btn.pri{background:var(--saf);color:#1f1606}
+.btn.pri:hover{background:#eab955}
+.btn.sec{border-color:color-mix(in srgb,var(--wool) 55%,transparent);color:var(--wool);background:none}
+.btn.sec:hover{background:color-mix(in srgb,var(--wool) 12%,transparent)}
+.btn.out{border-color:var(--line);color:var(--ink);background:var(--panel)}
+nav{position:sticky;top:0;z-index:20;background:var(--ind2);color:var(--wool);padding:10px max(5vw,16px)}
+nav .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font:800 16px Unbounded,sans-serif;text-decoration:none;letter-spacing:.02em;min-height:44px}
+.links{display:flex;gap:4px 18px;flex-wrap:wrap;margin-inline-start:auto}
+.links a{text-decoration:none;font-weight:600;font-size:15px;padding:8px 0;opacity:.85;min-height:44px;display:inline-flex;align-items:center}
+.links a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.lang{display:flex;border:1px solid #ffffff40;border-radius:999px;padding:3px}
+.lang button{background:none;border:0;color:var(--wool);min-width:44px;min-height:36px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer}
+.lang button[aria-pressed=true]{background:var(--saf);color:#1f1606}
+.hero{background:var(--ind);color:var(--wool);padding-bottom:0}
+.htop{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px 56px;align-items:end}
+.hero h1{font-size:clamp(50px,7vw,100px);font-weight:800;line-height:.95;letter-spacing:-.03em}
+.hero .sub{font:600 clamp(19px,2.1vw,26px)/1.25 Unbounded,sans-serif;margin-top:18px;max-width:24ch}
+.hero .lead{color:#d9d4e6;margin-bottom:22px}
+.scripts{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:22px;font-size:20px;color:var(--saf);font-weight:700}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.runner{position:relative;height:clamp(170px,22vw,260px);margin-top:clamp(32px,4vw,52px)}
+.runner svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.strip{background:var(--ind2);color:var(--wool);padding:18px max(5vw,16px)}
+.strip .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.strip .src{font-size:20px;font-weight:800;color:var(--saf)}
+.chip{display:inline-flex;gap:8px;align-items:baseline;background:#ffffff14;border-radius:10px;padding:8px 12px;white-space:nowrap}
+.chip b{font-size:13px;color:#b9b6cc;font-weight:700}
+.strip small{color:#b9b6cc;font-size:13px;margin-inline-start:auto}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:28px}
+.fact{background:var(--panel);padding:22px}
+.fact strong{display:block;font:800 clamp(24px,2.6vw,34px)/1.1 Unbounded,sans-serif;color:var(--madT);margin-bottom:8px;text-wrap:balance}
+.fact span{color:var(--soft);font-size:15px}
+.two{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px 64px;align-items:start}
+.scriptcards{display:grid;gap:12px}
+.sc{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.sc em{font-style:normal;font-size:13px;color:var(--soft)}
+.sc div{font:600 clamp(20px,2.4vw,28px)/1.2 Unbounded,"Noto Sans Hebrew",sans-serif}
+.place{margin-top:18px;background:var(--ind);color:var(--wool);border-radius:16px;padding:20px 22px}
+.place h3{color:var(--saf);margin-bottom:8px}
+.place p{margin:0;color:#dcd9e8}
+/* words */
+.words{background:var(--tint)}
+.whead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;align-items:end}
+.wod{background:var(--mad);color:var(--wool);border-radius:22px;padding:clamp(20px,3vw,30px);display:grid;gap:6px;position:relative;overflow:hidden}
+.wod small{font-size:14px;color:#f7d6cf;font-weight:700}
+.wod .w1{font:800 clamp(34px,5vw,58px)/1.02 Unbounded,sans-serif;overflow-wrap:anywhere}
+.wod .w2{font-size:20px;font-weight:700;color:var(--saf)}
+.wod p{margin:0;color:#fbe9e9}
+.wod button{justify-self:start;margin-top:8px;background:#ffffff1f;color:var(--wool);border:1.5px solid #ffffff66}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:30px 0 18px}
+.tools input[type=search]{flex:1 1 240px;min-height:48px;font-size:16px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink)}
+.cats{display:flex;flex-wrap:wrap;gap:8px}
+.cats button{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font-weight:700;font-size:15px;cursor:pointer}
+.cats button[aria-pressed=true]{background:var(--ind);color:var(--wool);border-color:var(--ind)}
+.prac{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;min-height:44px;cursor:pointer}
+.prac input{width:20px;height:20px;accent-color:var(--mad)}
+.count{font-size:15px;color:var(--soft);margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:14px}
+.w{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:6px;align-content:start}
+.w .lat{font:700 22px/1.15 Unbounded,sans-serif;overflow-wrap:anywhere}
+.w .cyr{font-size:17px;font-weight:700;color:var(--madT)}
+.w .cat{font-size:13px;color:var(--soft);font-weight:700}
+.w .mean{font-size:17px;font-weight:600;margin:4px 0 0}
+.w .lit{font-size:15px;color:var(--soft);margin:0}
+.w .ft{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:8px;font-size:14px}
+.w .ft a{font-weight:700;color:var(--madT)}
+.up{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1.5px dashed var(--line);border-radius:10px;cursor:pointer;font-weight:700}
+.up input{position:absolute;width:1px;height:1px;opacity:0}
+.up:focus-within{outline:3px solid var(--saf)}
+.w audio{width:100%;height:40px;margin-top:6px}
+.w.mine{border-style:dashed}
+.practice .w .mean,.practice .w .lit{filter:blur(7px);cursor:pointer;user-select:none}
+.practice .w.shown .mean,.practice .w.shown .lit{filter:none}
+.empty{color:var(--soft);font-size:15px;border:1.5px dashed var(--line);border-radius:14px;padding:16px}
+.sounds{margin-top:44px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:24px 48px;align-items:start}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:var(--panel);border-radius:14px;overflow:hidden}
+th,td{text-align:start;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-size:14px;color:var(--soft)}
+td.big{font:700 22px Unbounded,sans-serif;white-space:nowrap}
+.suggest{margin-top:44px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:24px 48px;align-items:start}
+form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,3vw,28px);display:grid;gap:14px}
+form label{font-weight:700;font-size:15px;display:grid;gap:6px}
+form input,form select,form textarea{font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);min-height:48px;width:100%}
+form textarea{min-height:90px;resize:vertical}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.err{color:var(--madT);font-weight:700;font-size:15px;min-height:1.2em;margin:0}
+.res{margin-top:16px;font-size:15px;color:var(--soft)}
+.res a{font-weight:700;color:var(--madT)}
+/* how */
+.route{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:34px 0 22px;position:relative}
+.route::before{content:"";position:absolute;left:10%;right:10%;top:31px;height:4px;background:repeating-linear-gradient(90deg,var(--mad) 0 14px,transparent 14px 22px)}
+.st{position:relative;background:none;border:0;color:var(--ink);cursor:pointer;display:grid;justify-items:center;gap:10px;padding:0 6px 6px;text-align:center}
+.st i{display:grid;place-items:center;width:66px;height:66px;border-radius:50%;background:var(--panel);border:3px solid var(--mad);font:800 20px Unbounded,sans-serif;font-style:normal;color:var(--madT);transition:transform .2s}
+.st span{font-weight:800;font-size:15px}
+.st[aria-selected=true] i{background:var(--mad);color:var(--wool);transform:scale(1.1)}
+.detail{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px 40px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,34px)}
+.detail h3{font-size:clamp(22px,2.4vw,30px);margin-bottom:12px}
+.kv{display:grid;gap:14px;align-content:start}
+.kv div{border-inline-start:3px solid var(--saf);padding-inline-start:14px}
+.detail[data-step="2"] .kv div:last-child{border-inline-start-color:var(--grn)}
+.kv b{display:block;font-size:13px;color:var(--soft);font-weight:700}
+.rq{font:600 clamp(20px,2.2vw,26px)/1.3 Unbounded,sans-serif;border-inline-start:5px solid var(--mad);padding-inline-start:18px;margin:20px 0 28px;max-width:44ch}
+.hyp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.hyp div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.hyp b{display:block;font:800 15px Unbounded,sans-serif;color:var(--madT);margin-bottom:6px}
+.eth{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;margin-top:28px}
+.eth div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.eth h3{margin-bottom:8px}
+.eth p{color:var(--soft);font-size:15px;margin:0}
+.road{background:var(--mad);color:var(--wool)}
+.phases{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:30px;list-style:none;padding:0;counter-reset:p}
+.phases li{counter-increment:p;border-top:4px solid var(--saf);padding-top:14px}
+.phases li::before{content:counter(p);font:800 34px Unbounded,sans-serif;color:var(--saf);display:block;margin-bottom:6px}
+.phases b{display:block;font-size:17px;margin-bottom:6px}
+.phases span{font-size:15px;color:#f7d6cf}
+.join{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:32px 56px;align-items:start}
+.reqs{display:grid;gap:10px;margin-top:18px}
+.req{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.req b{font-size:15px}.req span{color:var(--soft);font-size:14px}
+.req button,.w .rm{background:none;border:1.5px solid var(--line);color:var(--ink);border-radius:10px;min-height:36px;padding:0 12px;cursor:pointer}
+.req button{grid-row:span 2;align-self:center}
+footer{background:var(--ind2);color:#d6d3e4;font-size:15px}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px 48px}
+footer b{color:var(--wool);font-family:Unbounded,sans-serif}
+footer ul{margin:8px 0 0;padding-inline-start:18px}
+footer li{margin-bottom:4px}
+@media(max-width:900px){.htop,.two,.join,.detail,.whead,.sounds,.suggest,footer .wrap{grid-template-columns:minmax(0,1fr)}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.hyp{grid-template-columns:minmax(0,1fr)}.phases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.links{order:3;width:100%;margin:0;gap:4px 14px}.links a{font-size:14px}.lang{margin-inline-start:auto}.st i{width:48px;height:48px;font-size:16px}.st span{font-size:12px}.route::before,.route::after{top:22px}.phases,.facts,.row2{grid-template-columns:minmax(0,1fr)}.strip small{margin:0}th,td{padding:8px}td.big{font-size:18px}#sounds thead{display:none}#sounds tr{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:4px 16px;padding:12px 14px;border-bottom:1px solid var(--line);align-items:baseline}#sounds td{border:0;padding:0}#sounds td:nth-child(3){grid-column:1/-1;grid-row:2;color:var(--soft)}#sounds td:nth-child(4){text-align:end}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.st i{transition:none}}
+/* Woven interactions and progressive motion */
+.btn{position:relative;isolation:isolate;overflow:hidden;transition:transform var(--d-fast) var(--ease-out)}
+.btn.pri{z-index:0}
+.btn.pri::before{content:"";position:absolute;inset:0;background:#eab955;transform:scaleX(0);transform-origin:left;transition:transform var(--d-base) var(--ease-out);z-index:-1}
+.btn.pri:hover{background:var(--saf);transform:translateY(-2px)}
+.btn.pri:hover::before{transform:scaleX(1)}
+.btn.pri:active{transform:scale(.97)}
+.btn.sec::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:conic-gradient(from 0deg,var(--saf) 0 25%,var(--terra) 25% 50%,var(--wool) 50% 75%,var(--saf) 75%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity var(--d-base) var(--ease-out);z-index:-1}
+.btn.sec:hover::before{opacity:1}
+.lang{position:relative;padding:3px}
+.lang::before{content:"";position:absolute;z-index:0;left:4px;top:4px;width:44px;height:40px;border-radius:999px;background:var(--saf);transform:translateX(calc(var(--lang-index,0)*44px));transition:transform var(--d-base) var(--ease-knot)}
+.lang button{position:relative;z-index:1;min-width:44px;min-height:44px}
+.lang button[aria-pressed=true]{background:transparent;color:#1f1606}
+.cats button{position:relative;overflow:hidden;transition:color var(--d-fast),border-color var(--d-fast),clip-path var(--d-base) var(--ease-out)}
+.cats button[aria-pressed=true]{clip-path:inset(0)}
+.cats button.active-in{animation:cat-fill var(--d-base) var(--ease-out) both}
+.cats button:not([aria-pressed=true])::after{content:"";position:absolute;inset:auto 10px 0;height:2px;background:var(--mad);transform:scaleX(0);transform-origin:left;transition:transform var(--d-base) var(--ease-out)}
+.cats button:not([aria-pressed=true]):hover::after{transform:scaleX(1)}
+.whead{perspective:900px}
+.wod{transform-style:preserve-3d;transform-origin:center}
+.btn.sec:hover{background:none}
+.wod small{color:#f7d6cf}
+.w{position:relative;transition:transform var(--d-base) var(--ease-out),border-color var(--d-fast),filter var(--d-base) var(--ease-out)}
+.w::after{content:"";position:absolute;right:13px;top:13px;width:9px;height:9px;border:1px solid var(--terra);transform:rotate(45deg) scale(0);opacity:0;transition:transform var(--d-base) var(--ease-knot),opacity var(--d-fast)}
+.w:hover{transform:translateY(-3px);border-color:var(--mad);background:color-mix(in srgb,var(--panel) 88%,var(--rose))}
+.w:hover::after{transform:rotate(45deg) scale(1);opacity:1}
+mark{background:var(--rose);color:var(--walnut);padding:0 .08em;border-radius:2px}
+.practice .w .mean,.practice .w .lit{transition:filter var(--d-base) var(--ease-out)}
+.practice .w.shown{animation:nod 240ms var(--ease-knot)}
+.up{min-height:44px}
+.req button,.w .rm{min-height:44px}
+.route::after{content:"";position:absolute;z-index:0;left:10%;top:31px;width:80%;height:4px;background:var(--mad);transform:scaleX(var(--route-progress,0));transform-origin:left;transition:transform var(--d-slow) var(--ease-out);pointer-events:none}
+.st{z-index:1;min-height:44px}
+.st i{transition:transform var(--d-base) var(--ease-knot),background var(--d-fast)}
+.st[data-step="4"] i{border-color:var(--grn);color:var(--grnT)}
+.st[data-step="4"] i::after{content:"";position:absolute;width:8px;height:8px;right:0;top:0;background:var(--grnT);transform:rotate(45deg)}
+.st i{position:relative}
+.place{position:relative;overflow:hidden}
+.place::after{content:"";position:absolute;right:16px;top:16px;width:12px;height:12px;border:1px solid var(--terra);transform:rotate(45deg);opacity:1}
+.place.in::after{opacity:1;transform:rotate(45deg);transition:transform var(--d-slow) var(--ease-knot),opacity var(--d-base)}
+.eth>div{position:relative;overflow:hidden}
+.eth>div::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--grn);transform:scaleY(1);transform-origin:top;transition:transform var(--d-slow) var(--ease-out)}
+.eth.in>div::before{transform:scaleY(1)}
+.phases li{position:relative;border-top:0}
+.phases li::after{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--grn);transform:scaleX(1);transform-origin:left}
+.phases.in li.entry::after{animation:weft-in var(--d-slow) var(--ease-out) both;animation-delay:calc(var(--i,0)*120ms)}
+.phases li::before{color:var(--saf)}
+.req{transform-origin:top}
+.btn .ripple{position:absolute;width:12px;height:12px;border:1px solid var(--wool);background:#f6efe266;transform:translate(-50%,-50%) rotate(45deg) scale(0);opacity:1;pointer-events:none;animation:goel 450ms ease-out forwards}
+form .btn.success,form .btn.success:hover{background:var(--grn);color:var(--wool);transform:none}
+form .btn.success::before{transform:scaleX(0)}
+form .btn.success::after{content:"✓";margin-inline-start:8px}
+.w audio.attached-audio{outline:2px solid var(--grnT);border-radius:8px;animation:audio-knot 700ms var(--ease-out)}
+.read-progress{position:absolute;left:0;right:0;bottom:0;height:4px;overflow:hidden;pointer-events:none}
+.read-progress::before{content:"";display:block;width:100%;height:100%;background:repeating-linear-gradient(90deg,var(--mad) 0 12px,#eab955 12px 24px,var(--wool) 24px 36px);transform:scaleX(var(--scroll-progress,0));transform-origin:left}
+nav{position:sticky;box-shadow:none;transition:box-shadow var(--d-base) var(--ease-out)}
+nav.scrolled{box-shadow:0 6px 18px #111c4033}
+nav.scrolled .wrap{transform:scale(.985)}
+nav.scrolled .wrap a,nav.scrolled .wrap button{transform:scale(1.016)}
+nav .wrap{transform-origin:top center;transition:transform var(--d-base) var(--ease-out)}
+.scripts span{display:inline-block}
+.hero h1 .letter-mask{display:inline-block;overflow:hidden;vertical-align:baseline}
+.hero h1 .letter{display:inline-block}
+.w .ft a,.res a,footer a{display:inline-flex;align-items:center;min-height:44px}
+form label{position:relative}
+form label::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:2px;background:var(--mad);transform:scaleX(0);transform-origin:center;transition:transform var(--d-base) var(--ease-out)}
+form label:focus-within::after{transform:scaleX(1)}
+.sounds tr:hover td.big{transform:scale(1.08);transform-origin:left center;transition:transform var(--d-fast) var(--ease-knot)}
+.fact strong{font-variant-numeric:tabular-nums}
+.fact .status{display:inline-block}
+.fact .count-num{font-variant-numeric:tabular-nums;display:inline-block;text-align:end}
+section.band h2{position:relative;padding-bottom:14px}
+section.band h2::after{content:"";position:absolute;left:0;bottom:2px;width:48px;height:2px;background:var(--mad);transform:scaleX(0);transform-origin:left}
+.reqs .req.new{animation:req-in var(--d-base) var(--ease-out) both}
+@keyframes thread-in{from{clip-path:inset(0 100% 0 0);transform:translateY(12px)}to{clip-path:inset(0);transform:translateY(0)}}
+@keyframes weave-line{to{transform:scaleX(1)}}
+@keyframes letter-rise{from{clip-path:inset(100% 0 0);transform:translateY(35%)}to{clip-path:inset(0);transform:translateY(0)}}
+@keyframes script-in{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes script-rtl{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes stagger-in{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes stagger-rtl{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes req-in{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes audio-knot{50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--grnT) 35%,transparent)}}
+@keyframes nod{0%,100%{transform:rotateZ(-1deg)}50%{transform:rotateZ(1deg)}}
+@keyframes weft-in{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes cat-fill{from{clip-path:inset(50% 50%)}to{clip-path:inset(0)}}
+@keyframes goel{to{transform:translate(-50%,-50%) rotate(45deg) scale(2.5);opacity:0}}
+@media (prefers-reduced-motion:no-preference){
+ html.js .hero h1 .letter{display:inline-block;animation:letter-rise 600ms var(--ease-out) both;animation-delay:calc(var(--i,0)*40ms)}
+ html.js .scripts span{opacity:0;animation:script-in var(--d-slow) var(--ease-out) both;animation-delay:calc(180ms + var(--i,0)*180ms)}
+ html.js .scripts span[dir=rtl]{animation-name:script-rtl}
+ html.js section.band h2::after{animation:weave-line var(--d-slow) var(--ease-out) both;animation-play-state:paused}
+ html.js section.band h2{animation:thread-in var(--d-slow) var(--ease-out) both;animation-play-state:paused}
+ @keyframes runner-parallax{to{transform:translateY(30px);filter:brightness(.78)}}
+ html.js .facts .status{clip-path:inset(0 100% 0 0)}
+ @keyframes status-reveal{to{clip-path:inset(0)}}
+ html.js .eth>div::before{transition:none}
+ html.js .route.knot .st[aria-selected=true] i{animation:knot-tie 360ms var(--ease-knot)}
+ html.js .place:not(.in)::after{opacity:0;transform:rotate(0)}
+ html.js .eth:not(.in)>div::before{transform:scaleY(0)}
+ html.js .phases:not(.in) li::after{transform:scaleX(0)}
+ html.js .phases.in li.entry::before{animation:phase-num var(--d-base) var(--ease-knot) both;animation-delay:calc(var(--i,0)*120ms)}
+ @keyframes phase-num{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+ @keyframes knot-tie{50%{transform:scale(1.2)}}
+ @supports (animation-timeline:view()){
+  html.js section.band h2{animation-timeline:view();animation-range:entry 0% cover 30%;animation-play-state:running}
+  html.js section.band h2::after{animation-timeline:view();animation-range:entry 0% cover 30%;animation-play-state:running}
+  html.js .runner{animation:runner-parallax linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+  html.js .grid .w.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(min(var(--i,0),11)*30ms);animation-timeline:view();animation-range:entry 0% cover 30%}
+  html.js .scriptcards .sc.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-timeline:view();animation-range:entry 0% cover 30%}
+  html.js .scriptcards .sc:first-child.entry{animation-name:stagger-rtl}
+  html.js .facts .fact.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-timeline:view();animation-range:entry 0% cover 30%}
+  html.js .hyp .entry,html.js .eth .entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(var(--i,0)*90ms);animation-timeline:view();animation-range:entry 0% cover 30%}
+  html.js #sounds tbody tr.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(var(--i,0)*70ms);animation-timeline:view();animation-range:entry 0% cover 30%}
+  html.js .facts .status{animation:status-reveal linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
+  html.js .phases li.entry::after{animation:weft-in linear both;animation-timeline:view();animation-range:entry 0% cover 30%;animation-delay:calc(var(--i,0)*120ms)}
+  @supports (animation-timeline:scroll(root)){
+   html.js .read-progress::before{animation:read-progress linear both;animation-timeline:scroll(root)}
+  }
+  @keyframes read-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+ }
+}
+@media (prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;scroll-behavior:auto!important;transition:opacity 150ms linear!important;transform:none!important;filter:none!important;clip-path:none!important}
+ .runner{transform:none!important}
+ .fact .status{opacity:1}
+ .read-progress::before{transform:scaleX(var(--scroll-progress,0))}
+}
+html.js.no-scroll-timeline:not(.motion-off) section.band:not(.in) h2{opacity:0;transform:translateY(12px);clip-path:inset(0 100% 0 0)}
+html.js.no-scroll-timeline:not(.motion-off) section.band.in h2{animation:thread-in var(--d-slow) var(--ease-out) both}
+html.js.no-scroll-timeline:not(.motion-off) section.band.in h2::after{animation:weave-line var(--d-slow) var(--ease-out) both}
+html.js.no-scroll-timeline:not(.motion-off) .scriptcards:not(.in) .sc.entry,
+html.js.no-scroll-timeline:not(.motion-off) .facts:not(.in) .fact.entry,
+html.js.no-scroll-timeline:not(.motion-off) .hyp:not(.in) .entry,
+html.js.no-scroll-timeline:not(.motion-off) .eth:not(.in) .entry,
+html.js.no-scroll-timeline:not(.motion-off) #sounds:not(.in) tbody tr.entry,
+html.js.no-scroll-timeline:not(.motion-off) .grid:not(.in) .w.entry{opacity:0;transform:translateX(-16px)}
+html.js.no-scroll-timeline:not(.motion-off) .grid.in .w.entry,
+html.js.no-scroll-timeline:not(.motion-off) .scriptcards.in .sc.entry,
+html.js.no-scroll-timeline:not(.motion-off) .facts.in .fact.entry,
+html.js.no-scroll-timeline:not(.motion-off) .hyp.in .entry,
+html.js.no-scroll-timeline:not(.motion-off) .eth.in .entry,
+html.js.no-scroll-timeline:not(.motion-off) #sounds.in tbody tr.entry{animation:stagger-in var(--d-slow) var(--ease-out) both;animation-delay:calc(min(var(--i,0),11)*30ms)}
+html.js.no-scroll-timeline:not(.motion-off) .scriptcards.in .sc:first-child.entry{animation-name:stagger-rtl}
+html.js.no-scroll-timeline:not(.motion-off) .facts:not(.in) .status{clip-path:inset(0 100% 0 0)}
+html.js.no-scroll-timeline:not(.motion-off) .facts.in .status{animation:status-reveal var(--d-slow) var(--ease-out) both}
+html.js.motion-off section.band h2,html.js.motion-off section.band h2::after,
+html.js.motion-off .scriptcards .sc,html.js.motion-off .facts .fact,
+html.js.motion-off .grid .w,html.js.motion-off .hyp>div,html.js.motion-off .eth>div,
+html.js.motion-off #sounds tbody tr{opacity:1;transform:none;clip-path:none}
+html.js.motion-off *{animation:none!important}
+@media(max-width:600px){.route::after{top:22px}}
+</style>
+</head>
+<body>
+<nav aria-label="Main">
+ <div class="wrap">
+  <a class="logo" href="#top"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 1 25 13 13 25 1 13Z" fill="var(--mad)"/><path d="M13 6 20 13 13 20 6 13Z" fill="var(--saf)"/><path d="M13 10 16 13 13 16 10 13Z" fill="var(--ind)"/></svg>JUHURI AI</a>
+  <div class="links">
+   <a href="#language" data-t="n1">Language</a><a href="#words" data-t="n2">Words</a><a href="#how" data-t="n3">How it works</a><a href="#research" data-t="n4">Research</a><a href="#ethics" data-t="n5">Ethics</a><a href="#join" data-t="n6">Join</a>
+  </div>
+  <div class="lang" role="group" aria-label="Language">
+   <button type="button" data-l="en" aria-pressed="true">EN</button><button type="button" data-l="ru" aria-pressed="false">RU</button><button type="button" data-l="az" aria-pressed="false">AZ</button>
+  </div>
+ </div>
+ <div class="read-progress" aria-hidden="true"></div>
+</nav>
+
+<header class="band hero" id="top">
+ <div class="wrap htop">
+  <div>
+   <h1 aria-label="JUHURI AI">JUHURI AI</h1>
+   <p class="sub" data-t="sub">A community archive of the language of the Mountain Jews</p>
+   <div class="scripts" aria-label="Juhuri in three scripts"><span>Cuhuri</span><span>Жугьури</span><span lang="he" dir="rtl">ז׳אוּהאוּראִ</span></div>
+  </div>
+  <div>
+   <p class="lead" data-t="lead">Grandchildren record their grandparents, elders correct the words, and AI helps turn each story into Azerbaijani, Russian and English so the next generation can learn it.</p>
+   <div class="cta"><a class="btn pri" href="#words" data-t="c1">Learn the words</a><a class="btn sec" href="#join" data-t="c2">Bring a voice</a></div>
+  </div>
+ </div>
+ <div class="runner" role="img" aria-label="A carpet runner in Quba colours with a speech waveform woven into its field"><svg id="runner"></svg></div>
+</header>
+<div class="strip">
+ <div class="wrap">
+  <span class="src">zuhun ʤuhuri</span>
+  <span class="chip"><b>EN</b>Jewish language</span>
+  <span class="chip"><b>AZ</b>Yəhudi dili</span>
+  <span class="chip"><b>RU</b>Еврейский язык</span>
+  <small data-t="strip">The language's own name, translated three ways</small>
+ </div>
+</div>
+
+<section class="band" id="why" aria-labelledby="whyH">
+ <div class="wrap">
+  <h2 id="whyH" data-t="whyH">A living language with one generation left to teach it</h2>
+  <div class="facts" id="facts"></div>
+  <p class="note" data-t="factsN">Sources: Jewish Language Project (2023 estimate); UNESCO Atlas of the World's Languages in Danger (2010).</p>
+ </div>
+</section>
+
+<section class="band" id="language" aria-labelledby="langH" style="padding-top:0">
+ <div class="wrap two">
+  <div>
+   <h2 id="langH" data-t="langH">Persian roots, Hebrew words, Caucasian home</h2>
+   <p class="lead" style="margin-top:16px" data-t="l1">Juhuri, also called Judeo-Tat, belongs to the southwestern branch of the Iranian languages. It is close to Tat and related to Persian, yet speakers of Persian cannot understand it.</p>
+   <p data-t="l2">Hebrew and Aramaic words run through it, and it keeps the Semitic sound ayin, which none of its neighbouring languages has. Its own name, zuhun ʤuhuri, simply means "Jewish language".</p>
+   <p data-t="l3">Most families have moved to Russian, Azerbaijani, Hebrew or English. Grammars exist, but there are still few recordings of how the language is actually spoken at home. Families are the ones who can change that.</p>
+   <div class="place">
+    <h3 data-t="pH">Qırmızı Qəsəbə, Quba</h3>
+    <p data-t="pP">The all-Jewish town across the river from Quba, also known as Krasnaya Sloboda, is the one place where children still learn Juhuri at home. Our first Juhuri evenings will be held here.</p>
+   </div>
+  </div>
+  <div class="scriptcards" aria-label="Scripts used for Juhuri">
+   <div class="sc"><em data-t="s1">Hebrew script, the oldest</em><div lang="he" dir="rtl">ז׳אוּהאוּראִ</div></div>
+   <div class="sc"><em data-t="s2">Latin script</em><div>Cuhuri</div></div>
+   <div class="sc"><em data-t="s3">Cyrillic, used today</em><div>Жугьури</div></div>
+   <p class="note" data-t="sN">One language, three alphabets in a single century. Families spell words differently too, and the archive keeps every version.</p>
+  </div>
+ </div>
+</section>
+
+<section class="band words" id="words" aria-labelledby="wH">
+ <div class="wrap">
+  <div class="whead">
+   <div>
+    <h2 id="wH" data-t="wH">Words of our grandparents</h2>
+    <p class="lead" style="margin-top:14px" data-t="wL">Greetings, blessings, family names, numbers and food, collected from open sources where speakers say them aloud. Search, practise, and attach your own family's pronunciation to any word.</p>
+   </div>
+   <div class="wod" aria-live="polite" id="wod"></div>
+  </div>
+  <div class="tools">
+   <input type="search" id="q" aria-label="Search words" placeholder="Search in any language">
+   <label class="prac"><input type="checkbox" id="practice"><span data-t="prac">Practice: hide meanings</span></label>
+  </div>
+  <div class="cats" id="cats" role="group" aria-label="Topics"></div>
+  <p class="count" id="count" style="margin-top:16px"></p>
+  <div class="grid" id="grid"></div>
+  <p class="note" data-t="wN">Latin spellings follow each source; families and dialects may say a word differently. Words without Cyrillic are shown as the speaker wrote them in English letters. Recordings you attach play only in this browser.</p>
+
+  <div class="sounds">
+   <div>
+    <h3 style="font-size:clamp(22px,2.4vw,30px);margin-bottom:10px" data-t="soH">Five sounds to listen for</h3>
+    <p style="color:var(--soft)" data-t="soP">Cyrillic Juhuri uses letter pairs for sounds that Russian does not have. Hebrew words keep their throat sounds, as among other Mizrahi Jews.</p>
+   </div>
+   <div class="tw"><table id="sounds"></table></div>
+  </div>
+
+  <div class="suggest">
+   <div>
+    <h3 style="font-size:clamp(22px,2.4vw,30px);margin-bottom:10px" data-t="sgH">Add a word your family uses</h3>
+    <p style="color:var(--soft)" data-t="sgP">Your word appears in the list with a dashed border until an elder checks it. Spell it the way your family would write it.</p>
+    <p class="res" data-t="resL">Hear Juhuri spoken: <a href="https://huc.edu/public-programs-events/huc-connect-upcoming-events/podcast/heritage-words-exploring-jewish-ancestral-languages/khudo-kumek-isnt-just-goodbye-juhuri-journeys-with-ilana-mansharov/">Heritage Words podcast</a>, <a href="https://stmegi.com/tv/lessons_dzhuuri/">STMEGI video lessons</a>, and the STMEGI app "Джуури: Быстро выучи язык" with more than 150 voiced words.</p>
+   </div>
+   <form id="sg" novalidate>
+    <div class="row2">
+     <label><span data-t="sgW">Word in Juhuri</span><input id="sgWord" required></label>
+     <label><span data-t="sgC">Cyrillic spelling, if known</span><input id="sgCyr"></label>
+    </div>
+    <label><span data-t="sgM">What it means</span><input id="sgMean" required></label>
+    <label><span data-t="sgF">Who says it</span><input id="sgWho" placeholder="My grandmother, Quba"></label>
+    <p class="err" id="sgErr" role="alert"></p>
+    <button class="btn pri" type="submit" data-t="sgB" style="justify-self:start">Add word</button>
+   </form>
+  </div>
+ </div>
+</section>
+
+<section class="band" id="how" aria-labelledby="howH">
+ <div class="wrap">
+  <h2 id="howH" data-t="howH">How the community keeps the language</h2>
+  <p class="lead" style="margin-top:14px" data-t="howL">Five steps, led by families. Select one to see who takes part and what it leaves behind.</p>
+  <div class="route" role="tablist" aria-label="Steps" id="route"></div>
+  <div class="detail" role="tabpanel" id="detail" aria-live="polite"></div>
+ </div>
+</section>
+
+<section class="band words" id="research" aria-labelledby="resH">
+ <div class="wrap">
+  <h2 id="resH" data-t="resH">Where AI helps, and what we study</h2>
+  <p class="lead" style="margin-top:14px" data-t="resL2">AI does the slow work of writing down and translating. Elders keep the final word. The research asks how far a speech model can go with very little data.</p>
+  <p class="rq" data-t="rq">How accurately can modern multilingual speech models recognise Juhuri when only a few hours of transcribed family recordings exist, and how much do elders' corrections improve them?</p>
+  <div class="hyp" id="hyp"></div>
+  <p class="note" data-t="metN">Measured with word error rate (WER) and character error rate (CER) on speakers the model has never heard.</p>
+ </div>
+</section>
+
+<section class="band" id="ethics" aria-labelledby="ethH">
+ <div class="wrap">
+  <h2 id="ethH" data-t="ethH">The voices belong to the community</h2>
+  <div class="eth" id="eth"></div>
+ </div>
+</section>
+
+<section class="band road" id="roadmap" aria-labelledby="roadH">
+ <div class="wrap">
+  <h2 id="roadH" data-t="roadH">Roadmap</h2>
+  <ol class="phases" id="phases"></ol>
+ </div>
+</section>
+
+<section class="band" id="join" aria-labelledby="joinH">
+ <div class="wrap join">
+  <div>
+   <h2 id="joinH" data-t="joinH">Bring a voice to the archive</h2>
+   <p class="lead" style="margin-top:14px" data-t="joinL">Do you have a grandparent who speaks Juhuri? Are you a student who wants to interview, transcribe or translate? Tell us and we will plan a visit together.</p>
+   <div class="reqs" id="reqs"></div>
+  </div>
+  <form id="form" novalidate>
+   <label><span data-t="fN">Your name</span><input id="fName" autocomplete="name" required></label>
+   <label><span data-t="fR">How you can help</span><select id="fRole"></select></label>
+   <label><span data-t="fC">City or village</span><input id="fCity" autocomplete="address-level2"></label>
+   <label><span data-t="fM">Message</span><textarea id="fMsg"></textarea></label>
+   <p class="err" id="fErr" role="alert"></p>
+   <button class="btn pri" type="submit" data-t="fB" style="justify-self:start">Send request</button>
+   <p class="note" style="margin:0" data-t="fNote">Prototype form: requests are kept in this browser until the site is connected to the team's email.</p>
+  </form>
+ </div>
+</section>
+
+<footer class="band">
+ <div class="wrap">
+  <div><b>JUHURI AI</b><p style="margin-top:8px" data-t="ft">A student-led community project for preserving Juhuri, the language of the Mountain Jews. Baku and Quba, 2026.</p></div>
+  <div><span data-t="ftS">Sources for the words and facts</span>
+   <ul>
+    <li><a href="https://huc.edu/wp-content/uploads/Ilana-Mansharov-podcast-transcript-1.pdf">Heritage Words podcast, episode with Ilana Mansharov (HUC Jewish Language Project)</a></li>
+    <li><a href="https://omniglot.com/language/numbers/juhuri.htm">Omniglot: numbers in Juhuri</a> · <a href="https://www.omniglot.com/language/proverbs/juhuri.htm">proverbs</a></li>
+    <li><a href="https://stmegi.com/upload/iblock/6f6/6f69aebf953beddd79f07cc004416c25.pdf">V. Amir, Горско-еврейско-русский словарь (STMEGI)</a></li>
+    <li><a href="https://www.jewishlanguages.org/judeo-tat-juhuri">Jewish Language Project: Judeo-Tat / Juhuri</a></li>
+    <li><a href="https://www.elalliance.org/languages/juhuri">Endangered Language Alliance: Juhuri</a></li>
+   </ul>
+  </div>
+ </div>
+</footer>
+
+<script>
+document.documentElement.classList.add("js");
+{
+const T={ru:{n1:"Язык",n2:"Слова",n3:"Как это работает",n4:"Наука",n5:"Этика",n6:"Участие",sub:"Архив общины для языка горских евреев",lead:"Внуки записывают бабушек и дедушек, старшие поправляют слова, а ИИ помогает перевести каждую историю на азербайджанский, русский и английский, чтобы её выучило следующее поколение.",c1:"Учить слова",c2:"Поделиться голосом",strip:"Самоназвание языка в трёх переводах",whyH:"Живой язык, который ещё успевает передать одно поколение",factsN:"Источники: Jewish Language Project (оценка 2023 г.); Атлас языков мира, находящихся под угрозой, ЮНЕСКО (2010).",langH:"Персидские корни, еврейские слова, кавказский дом",l1:"Джуури, или еврейско-татский язык, относится к юго-западной группе иранских языков. Он близок к татскому и родствен персидскому, но носители персидского его не понимают.",l2:"В нём много слов из иврита и арамейского, и он сохраняет семитский звук «айн», которого нет ни в одном соседнем языке. Самоназвание zuhun ʤuhuri означает просто «еврейский язык».",l3:"Большинство семей перешли на русский, азербайджанский, иврит или английский. Грамматики есть, но записей живой домашней речи до сих пор мало. Изменить это могут сами семьи.",pH:"Красная Слобода, Губа",pP:"Полностью еврейский посёлок на другом берегу реки от Губы, Qırmızı Qəsəbə, — единственное место, где дети всё ещё учат джуури дома. Здесь пройдут наши первые вечера джуури.",s1:"Еврейское письмо, самое старое",s2:"Латиница",s3:"Кириллица, используется сейчас",sN:"Один язык и три алфавита за одно столетие. Семьи тоже пишут слова по-разному, и архив хранит каждый вариант.",wH:"Слова наших бабушек и дедушек",wL:"Приветствия, благословения, родственные слова, числа и еда — из открытых источников, где носители произносят их вслух. Ищите, тренируйтесь и добавляйте к любому слову произношение своей семьи.",prac:"Тренировка: скрыть значения",wN:"Латиница дана так, как в источнике; в семьях и диалектах слово может звучать иначе. Слова без кириллицы приведены так, как их записала рассказчица латинскими буквами. Прикреплённые записи играют только в этом браузере.",soH:"Пять звуков, на которые стоит обратить внимание",soP:"В кириллице джуури есть сочетания букв для звуков, которых нет в русском. Слова из иврита сохраняют гортанные звуки, как у других восточных евреев.",sgH:"Добавьте слово из своей семьи",sgP:"Слово появится в списке с пунктирной рамкой, пока его не проверит кто-то из старших. Пишите так, как написала бы ваша семья.",resL:"Послушать джуури: <a href=\"https://huc.edu/public-programs-events/huc-connect-upcoming-events/podcast/heritage-words-exploring-jewish-ancestral-languages/khudo-kumek-isnt-just-goodbye-juhuri-journeys-with-ilana-mansharov/\">подкаст Heritage Words</a>, <a href=\"https://stmegi.com/tv/lessons_dzhuuri/\">видеоуроки СТМЭГИ</a> и приложение СТМЭГИ «Джуури: Быстро выучи язык», где озвучено более 150 слов.",sgW:"Слово на джуури",sgC:"Кириллицей, если знаете",sgM:"Что оно значит",sgF:"Кто так говорит",sgB:"Добавить слово",howH:"Как община сохраняет язык",howL:"Пять шагов, которые ведут семьи. Выберите шаг, чтобы увидеть, кто участвует и что остаётся после.",resH:"Где помогает ИИ и что мы исследуем",resL2:"ИИ берёт на себя долгую работу — записать и перевести. Последнее слово остаётся за старшими. Исследование выясняет, как далеко речевая модель может зайти с очень малым объёмом данных.",rq:"Насколько точно современные многоязычные модели распознают джуури, если есть лишь несколько часов расшифрованных семейных записей, и насколько их улучшают поправки старших?",metN:"Измеряем долю ошибок по словам (WER) и символам (CER) на дикторах, которых модель никогда не слышала.",ethH:"Голоса принадлежат общине",roadH:"Дорожная карта",joinH:"Добавьте голос в архив",joinL:"У вас есть бабушка или дедушка, говорящие на джуури? Вы студент и хотите брать интервью, расшифровывать или переводить? Напишите нам, и мы вместе спланируем встречу.",fN:"Ваше имя",fR:"Чем вы можете помочь",fC:"Город или село",fM:"Сообщение",fB:"Отправить заявку",fNote:"Форма-прототип: заявки хранятся в этом браузере, пока сайт не подключён к почте команды.",ft:"Студенческий проект общины по сохранению джуури — языка горских евреев. Баку и Губа, 2026.",ftS:"Источники слов и фактов"},
+az:{n1:"Dil",n2:"Sözlər",n3:"Necə işləyir",n4:"Tədqiqat",n5:"Etika",n6:"Qoşul",sub:"Dağ yəhudilərinin dili üçün icma arxivi",lead:"Nəvələr nənə və babalarını yazır, yaşlılar sözləri düzəldir, süni intellekt isə hər hekayəni azərbaycan, rus və ingilis dillərinə çevirməyə kömək edir ki, növbəti nəsil onu öyrənə bilsin.",c1:"Sözləri öyrən",c2:"Səsini paylaş",strip:"Dilin öz adı, üç dildə tərcümə",whyH:"Hələ bir nəslin ötürə biləcəyi canlı dil",factsN:"Mənbələr: Jewish Language Project (2023 təxmini); UNESCO-nun Təhlükə altında olan dünya dilləri atlası (2010).",langH:"Fars kökləri, ivrit sözləri, Qafqaz evi",l1:"Cuhuri, yəni yəhudi-tat dili, İran dillərinin cənub-qərb qrupuna aiddir. Tat dilinə yaxın, fars dili ilə qohumdur, lakin fars dilində danışanlar onu başa düşmür.",l2:"Dildə ivrit və arami sözləri çoxdur və qonşu dillərin heç birində olmayan semit \"ayn\" səsini saxlayır. Öz adı olan zuhun ʤuhuri sadəcə \"yəhudi dili\" deməkdir.",l3:"Ailələrin çoxu rus, azərbaycan, ivrit və ya ingilis dilinə keçib. Qrammatikalar var, amma evdə danışılan canlı nitqin yazıları hələ də azdır. Bunu ailələr özləri dəyişə bilər.",pH:"Qırmızı Qəsəbə, Quba",pP:"Qubanın çayın o tayındakı tamamilə yəhudi qəsəbəsi uşaqların cuhuri dilini hələ də evdə öyrəndiyi yeganə yerdir. İlk cuhuri axşamlarımız burada keçiriləcək.",s1:"İvrit əlifbası, ən qədimi",s2:"Latın əlifbası",s3:"Kiril, bu gün istifadə olunur",sN:"Bir dil, bir əsrdə üç əlifba. Ailələr də sözləri fərqli yazır və arxiv hər variantı saxlayır.",wH:"Nənə və babalarımızın sözləri",wL:"Salamlar, xeyir-dualar, qohumluq sözləri, rəqəmlər və yeməklər — danışanların ucadan dediyi açıq mənbələrdən. Axtarın, məşq edin və istənilən sözə öz ailənizin tələffüzünü əlavə edin.",prac:"Məşq: mənaları gizlət",wN:"Latın yazılışı mənbədəki kimidir; ailələrdə və dialektlərdə söz fərqli səslənə bilər. Kirili olmayan sözlər danışanın latın hərfləri ilə yazdığı kimi verilib. Əlavə etdiyiniz yazılar yalnız bu brauzerdə səslənir.",soH:"Diqqət yetirməli beş səs",soP:"Cuhurinin kiril yazısında rus dilində olmayan səslər üçün hərf birləşmələri var. İvrit sözləri digər Şərq yəhudilərində olduğu kimi boğaz səslərini saxlayır.",sgH:"Ailənizin işlətdiyi sözü əlavə edin",sgP:"Söz yaşlılardan biri yoxlayana qədər siyahıda qırıq xətli çərçivə ilə görünəcək. Ailənizin yazacağı kimi yazın.",resL:"Cuhuri nitqini dinləyin: <a href=\"https://huc.edu/public-programs-events/huc-connect-upcoming-events/podcast/heritage-words-exploring-jewish-ancestral-languages/khudo-kumek-isnt-just-goodbye-juhuri-journeys-with-ilana-mansharov/\">Heritage Words podkastı</a>, <a href=\"https://stmegi.com/tv/lessons_dzhuuri/\">STMEGI video dərsləri</a> və 150-dən çox səsləndirilmiş sözü olan STMEGI tətbiqi «Джуури: Быстро выучи язык».",sgW:"Söz cuhuri dilində",sgC:"Kiril yazılışı, bilirsinizsə",sgM:"Mənası",sgF:"Kim belə deyir",sgB:"Sözü əlavə et",howH:"İcma dili necə qoruyur",howL:"Ailələrin apardığı beş addım. Kimin iştirak etdiyini və nəyin qaldığını görmək üçün addımı seçin.",resH:"Süni intellekt harada kömək edir və nəyi öyrənirik",resL2:"Süni intellekt yazmaq və tərcümə etmək kimi uzun işi görür. Son söz yaşlılarındır. Tədqiqat nitq modelinin çox az məlumatla nə qədər irəli gedə biləcəyini öyrənir.",rq:"Cəmi bir neçə saatlıq transkripsiya olunmuş ailə yazısı olduqda müasir çoxdilli nitq modelləri cuhurini nə qədər dəqiq tanıyır və yaşlıların düzəlişləri onları nə qədər yaxşılaşdırır?",metN:"Modelin heç vaxt eşitmədiyi danışanlarda söz (WER) və simvol (CER) səhv dərəcəsi ilə ölçülür.",ethH:"Səslər icmaya məxsusdur",roadH:"Yol xəritəsi",joinH:"Arxivə bir səs əlavə edin",joinL:"Cuhuri dilində danışan nənəniz və ya babanız var? Müsahibə, transkripsiya və ya tərcümə etmək istəyən tələbəsiniz? Bizə yazın, görüşü birlikdə planlaşdıraq.",fN:"Adınız",fR:"Necə kömək edə bilərsiniz",fC:"Şəhər və ya kənd",fM:"Mesaj",fB:"Müraciət göndər",fNote:"Prototip forma: müraciətlər sayt komandanın poçtuna qoşulana qədər bu brauzerdə saxlanılır.",ft:"Dağ yəhudilərinin dili olan cuhurini qorumaq üçün tələbələrin icma layihəsi. Bakı və Quba, 2026.",ftS:"Sözlərin və faktların mənbələri"}};
+
+const SRC={p:"https://huc.edu/public-programs-events/huc-connect-upcoming-events/podcast/heritage-words-exploring-jewish-ancestral-languages/khudo-kumek-isnt-just-goodbye-juhuri-journeys-with-ilana-mansharov/",o:"https://omniglot.com/language/numbers/juhuri.htm",v:"https://www.omniglot.com/language/proverbs/juhuri.htm",w:"https://www.jewishlanguages.org/judeo-tat-juhuri"};
+/* [latin, cyrillic, category, en, ru, az, literal en, literal ru, literal az, source] */
+const W=[
+["sholoom","","greet","hello","здравствуйте","salam","","","","p"],
+["ruz e khair bu","","greet","have a good day","хорошего дня","gününüz xeyir olsun","may your day be good","пусть день будет добрым","gününüz xeyirli olsun","p"],
+["soghboshi","","greet","thank you","спасибо","sağ olun","may you live a long life","живи долго","uzun ömürlü olasan","p"],
+["khudo kumek","","greet","goodbye","до свидания","görüşənədək","God help","Бог в помощь","Allah köməyin olsun","p"],
+["tiro kumek","","greet","said together with khudo kumek","говорят вместе с khudo kumek","khudo kumek ilə birlikdə deyilir","may the Torah help us","пусть Тора поможет нам","Tövrat bizə kömək olsun","p"],
+["chubi","","greet","good","хорошо","yaxşı","","","","p"],
+["dedey","","family","mother; also grandmother, as in dedey Ruza","мама; также бабушка: dedey Ruza","ana; həm də nənə: dedey Ruza","","","","p"],
+["bebay","бебе","family","father; also grandfather","отец, папа; также дедушка","ata; həm də baba","","","","p"],
+["kela","","family","big, grand","большой, старший","böyük","","","","p"],
+["kela dedey","","family","paternal grandmother","бабушка по отцу","ata tərəfdən nənə","big mother","большая мама","böyük ana","p"],
+["kela bebey","","family","paternal grandfather","дедушка по отцу","ata tərəfdən baba","big father","большой папа","böyük ata","p"],
+["deday kholu","","family","maternal grandmother","бабушка по матери","ana tərəfdən nənə","","","","p"],
+["bebay kholu","","family","maternal grandfather","дедушка по матери","ana tərəfdən baba","","","","p"],
+["kholu","","family","maternal uncle","дядя по матери","dayı","","","","p"],
+["amma","","family","paternal aunt","тётя по отцу","bibi","","","","p"],
+["chola","","family","maternal aunt","тётя по матери","xala","","","","p"],
+["khaar","","family","sister","сестра","bacı","","","","p"],
+["biror","бирор","family","brother","брат","qardaş","","","","p"],
+["khaar zora","","family","cousin, a sister's child","двоюродный брат или сестра, ребёнок сестры","bacı uşağı","offspring of a sister","потомство сестры","bacının övladı","p"],
+["biror zora","","family","cousin, a brother's child","двоюродный брат или сестра, ребёнок брата","qardaş uşağı","offspring of a brother","потомство брата","qardaşın övladı","p"],
+["joon","","love","my soul, dear","душа моя, дорогой","canım","","","","p"],
+["jon bala","","love","my dear child","мой дорогой ребёнок","can balam","","","","p"],
+["sherine bala","","love","sweet child","сладкий ребёнок","şirin bala","","","","p"],
+["bala","бала","love","child","дитя, ребёнок","uşaq, bala","","","","p"],
+["ayl","","love","a small child, naughty but sweet","маленький ребёнок, шалун, но милый","balaca uşaq, dəcəl, amma şirin","","","","p"],
+["ser","","body","head","голова","baş","","","","p"],
+["des","","body","hand","рука","əl","","","","p"],
+["poi","","body","leg; poio is legs","нога; poio — ноги","ayaq; poio — ayaqlar","","","","p"],
+["kemmer","","body","back","спина","bel, kürək","","","","p"],
+["shugham","","body","stomach","живот","qarın","","","","p"],
+["vini","вини","body","nose","нос","burun","","","","p"],
+["la'a","","body","mouth","рот","ağız","","","","p"],
+["zun","","body","tongue","язык (орган)","dil (orqan)","","","","p"],
+["jək","ек","num","one","один","bir","","","","o"],
+["dy","дуь","num","two","два","iki","","","","o"],
+["sə","се","num","three","три","üç","","","","o"],
+["çor","чор","num","four","четыре","dörd","","","","o"],
+["pənç","пенж","num","five","пять","beş","","","","o"],
+["şəş","шеш","num","six","шесть","altı","","","","o"],
+["ħofd","хьофд","num","seven","семь","yeddi","","","","o"],
+["ħəşd","хьэшд","num","eight","восемь","səkkiz","","","","o"],
+["nyh","нуьгь","num","nine","девять","doqquz","","","","o"],
+["dəh","дегь","num","ten","десять","on","","","","o"],
+["jazdəh","яздегь","num","eleven","одиннадцать","on bir","","","","o"],
+["duvasdəh","дуваздегь","num","twelve","двенадцать","on iki","","","","o"],
+["osh yepraghi","","food","stuffed cabbage with meat, rice, cilantro and onion, served over rice in tamarind sauce","голубцы с мясом, рисом, кинзой и луком, на рисе в соусе из тамаринда","ətli, düyülü, kişnişli kələm dolması, tamarind sousunda düyü ilə","","","","p"],
+["eshkena","","food","a Passover dish: the seder plate put into soup","блюдо на Песах: пасхальное блюдо, опущенное в суп","Pesax yeməyi: seder boşqabı şorbaya qatılır","","","","p"],
+["khori bebeho","","say","the land of our ancestors, the Holy Land","земля наших предков, Святая земля","əcdadlarımızın torpağı, Müqəddəs torpaq","","","","p"],
+["Səg dərjorə lap zəgə, dərjo murdal nibu","","say","Even if a dog laps at the sea, the sea does not become unclean","Если собака полакает море, море не осквернится","İt yalamaqla dəniz murdar olmaz","","","","v"],
+["Juhuri, Juhuro","Жугьури","say","Jewish; Jews, the name the community uses for itself","«еврейский»; «евреи», самоназвание общины","\"yəhudi\"; \"yəhudilər\", icmanın öz adı","","","","w"]];
+
+const D={
+cats:{en:{all:"All",greet:"Greetings and blessings",family:"Family",love:"Endearments",body:"Body",num:"Numbers",food:"Food",say:"Sayings and names",mine:"Added by families"},ru:{all:"Все",greet:"Приветствия и благословения",family:"Семья",love:"Ласковые слова",body:"Тело",num:"Числа",food:"Еда",say:"Выражения и названия",mine:"Добавлено семьями"},az:{all:"Hamısı",greet:"Salam və dualar",family:"Ailə",love:"Əzizləmələr",body:"Bədən",num:"Rəqəmlər",food:"Yemək",say:"İfadələr və adlar",mine:"Ailələrin əlavəsi"}},
+ui:{en:{lit:"Literally",src:"Source",hear:"Hear it in the podcast",att:"Attach family recording",rm:"Remove",n:"words",wod:"Word of the day",next:"Another word",none:"No words match. Try another spelling, or add the word below.",mineTag:"Added by you, waiting for an elder to check",err:"Add your name so we know who to contact.",errW:"Add the word and its meaning.",empty:"No requests yet. Send the form and your request will appear here.",tap:"Tap to reveal"},
+ru:{lit:"Дословно",src:"Источник",hear:"Послушать в подкасте",att:"Прикрепить запись семьи",rm:"Удалить",n:"слов",wod:"Слово дня",next:"Другое слово",none:"Ничего не нашлось. Попробуйте другое написание или добавьте слово ниже.",mineTag:"Добавлено вами, ждёт проверки старших",err:"Укажите имя, чтобы мы знали, с кем связаться.",errW:"Впишите слово и его значение.",empty:"Заявок пока нет. Отправьте форму, и заявка появится здесь.",tap:"Нажмите, чтобы открыть"},
+az:{lit:"Hərfi mənada",src:"Mənbə",hear:"Podkastda dinlə",att:"Ailə yazısını əlavə et",rm:"Sil",n:"söz",wod:"Günün sözü",next:"Başqa söz",none:"Uyğun söz tapılmadı. Başqa yazılış yoxlayın və ya sözü aşağıda əlavə edin.",mineTag:"Siz əlavə etdiniz, yaşlıların yoxlamasını gözləyir",err:"Adınızı yazın ki, kimlə əlaqə saxlayacağımızı bilək.",errW:"Sözü və mənasını yazın.",empty:"Hələ müraciət yoxdur. Formanı göndərin, müraciət burada görünəcək.",tap:"Açmaq üçün toxunun"}},
+sounds:{head:{en:["Cyrillic","Latin","How it sounds","Example"],ru:["Кириллица","Латиница","Как звучит","Пример"],az:["Kiril","Latın","Necə səslənir","Nümunə"]},
+rows:[["э","ə",{en:"like the a in about",ru:"нейтральный звук, как безударное «а»",az:"azərbaycan ə kimi"},"се (sə) — 3"],["уь","ü / y",{en:"like German ü",ru:"как немецкое ü",az:"azərbaycan ü kimi"},"дуь (dy) — 2"],["хь","ħ",{en:"a strong h from deep in the throat, like Arabic ح",ru:"сильное гортанное «х», как арабское ح",az:"boğazdan gələn güclü h, ərəb ح kimi"},"хьофд (ħofd) — 7"],["гь","h",{en:"a plain, soft h",ru:"мягкое придыхательное «h»",az:"sadə h"},"дегь (dəh) — 10"],["ш","š / ş",{en:"sh, as in shop",ru:"как «ш»",az:"ş kimi"},"шеш (şəş) — 6"]]},
+facts:{en:[["30–40k","estimated speakers today (2023)"],["200–250k","people who identify as Mountain Jews"],["Definitely endangered","status in the UNESCO Atlas (2010)"],["1 town","where children still learn it at home"]],
+ru:[["30–40 тыс.","носителей сегодня, оценка 2023 г."],["200–250 тыс.","человек считают себя горскими евреями"],["Под угрозой","статус в Атласе ЮНЕСКО (2010)"],["1 посёлок","где дети всё ещё учат его дома"]],
+az:[["30–40 min","danışan, 2023 təxmini"],["200–250 min","özünü dağ yəhudisi sayan insan"],["Təhlükədə","UNESCO Atlasında statusu (2010)"],["1 qəsəbə","uşaqların onu hələ evdə öyrəndiyi yer"]]},
+stLab:{en:["Who takes part","What it leaves behind"],ru:["Кто участвует","Что остаётся"],az:["Kim iştirak edir","Nə qalır"]},
+st:{en:[["Visit","Family visits","A grandchild sits with a grandparent and asks about childhood, holidays, songs and recipes. A phone is enough; a familiar face matters more than equipment.","Grandchildren, student volunteers, elders at home.","Recordings with spoken consent, kept by the family and the archive."],
+["Gather","Juhuri evenings","Monthly evenings in Qırmızı Qəsəbə and Baku where elders tell stories, sing and correct each other's words while young people listen and ask.","Elders, families, schoolchildren, local teachers.","Group recordings, word lists and notes on how each village says things."],
+["Write down","AI drafts, elders correct","A speech model writes a first draft of each recording. Bilingual volunteers fix it, and elders have the final word on every spelling.","Student transcribers, bilingual speakers, elders.","Checked text in Cyrillic, Latin and Hebrew script. Each correction teaches the model."],
+["Teach","Lessons for schoolchildren","Stories become short lessons and word cards in Azerbaijani, Russian and English, voiced by real grandparents rather than an announcer.","Teachers, students, families who learn together.","Lessons, quizzes and word cards like the ones on this page."],
+["Keep","Community archive","Every voice, story, song and recipe in one searchable place, organised by topic, speaker and village.","The whole community, partner schools and libraries.","An archive the community owns, ready for the next generation."]],
+ru:[["Визит","Семейные визиты","Внук садится рядом с бабушкой или дедушкой и спрашивает о детстве, праздниках, песнях и рецептах. Хватит телефона: знакомое лицо важнее техники.","Внуки, студенты-волонтёры, старшие дома.","Записи с устным согласием, которые хранят семья и архив."],
+["Встреча","Вечера джуури","Ежемесячные вечера в Красной Слободе и Баку: старшие рассказывают истории, поют и поправляют друг друга, а молодёжь слушает и спрашивает.","Старшие, семьи, школьники, местные учителя.","Групповые записи, списки слов и заметки о том, как говорят в каждом селе."],
+["Запись","ИИ пишет черновик, старшие поправляют","Речевая модель делает первый черновик расшифровки. Волонтёры-билингвы его исправляют, а последнее слово о каждом написании за старшими.","Студенты-расшифровщики, билингвы, старшие.","Проверенный текст на кириллице, латинице и еврейском письме. Каждая правка учит модель."],
+["Обучение","Уроки для школьников","Истории превращаются в короткие уроки и карточки слов на азербайджанском, русском и английском, озвученные настоящими бабушками и дедушками, а не диктором.","Учителя, школьники, семьи, которые учатся вместе.","Уроки, викторины и карточки слов, как на этой странице."],
+["Архив","Архив общины","Каждый голос, история, песня и рецепт в одном месте с поиском по теме, рассказчику и селу.","Вся община, школы-партнёры и библиотеки.","Архив, который принадлежит общине и ждёт следующее поколение."]],
+az:[["Ziyarət","Ailə ziyarətləri","Nəvə nənə və ya babasının yanında oturub uşaqlıq, bayramlar, mahnılar və reseptlər haqqında soruşur. Telefon kifayətdir: tanış üz texnikadan vacibdir.","Nəvələr, tələbə könüllülər, evdəki yaşlılar.","Şifahi razılıqla yazılar; ailə və arxiv saxlayır."],
+["Görüş","Cuhuri axşamları","Qırmızı Qəsəbədə və Bakıda aylıq axşamlar: yaşlılar hekayə danışır, oxuyur, bir-birinin sözlərini düzəldir, gənclər dinləyib soruşur.","Yaşlılar, ailələr, məktəblilər, yerli müəllimlər.","Qrup yazıları, söz siyahıları və hər kəndin danışığı haqqında qeydlər."],
+["Yazı","Süni intellekt qaralama yazır, yaşlılar düzəldir","Nitq modeli hər yazının ilk qaralamasını hazırlayır. İkidilli könüllülər onu düzəldir, hər yazılışda son söz yaşlılarındır.","Tələbə transkriptorlar, ikidilli danışanlar, yaşlılar.","Kiril, latın və ivrit əlifbasında yoxlanmış mətn. Hər düzəliş modeli öyrədir."],
+["Dərs","Məktəblilər üçün dərslər","Hekayələr azərbaycan, rus və ingilis dillərində qısa dərslərə və söz kartlarına çevrilir; onları diktor yox, əsl nənə və babalar səsləndirir.","Müəllimlər, məktəblilər, birlikdə öyrənən ailələr.","Bu səhifədəkilər kimi dərslər, viktorinalar və söz kartları."],
+["Arxiv","İcma arxivi","Hər səs, hekayə, mahnı və resept mövzu, danışan və kəndə görə axtarışla bir yerdə.","Bütün icma, tərəfdaş məktəblər və kitabxanalar.","İcmaya məxsus, növbəti nəsli gözləyən arxiv."]]},
+hyp:{en:[["H1","Fine-tuning a pretrained multilingual model on a few hours of family recordings cuts error rates far below its untrained level."],["H2","Starting from related languages (Persian, Tat, Azerbaijani) helps more than starting from English alone."],["H3","Each round of elders' corrections lowers the error rate further, so community work and model quality grow together."]],
+ru:[["H1","Дообучение многоязычной модели на нескольких часах семейных записей резко снижает ошибки по сравнению с моделью без обучения."],["H2","Старт с родственных языков (персидский, татский, азербайджанский) помогает больше, чем только английский."],["H3","Каждый круг поправок старших снижает ошибки ещё сильнее: работа общины и качество модели растут вместе."]],
+az:[["H1","Çoxdilli modelin bir neçə saatlıq ailə yazısı ilə öyrədilməsi səhvləri öyrədilməmiş vəziyyətə nisbətən kəskin azaldır."],["H2","Qohum dillərdən (fars, tat, azərbaycan) başlamaq yalnız ingilis dilindən başlamaqdan daha faydalıdır."],["H3","Yaşlıların hər düzəliş dövrü səhvləri daha da azaldır: icmanın işi və modelin keyfiyyəti birlikdə artır."]]},
+eth:{en:[["Consent first","Every recording begins with spoken consent in the speaker's own language, kept with the file."],["Speakers choose access","Public, family only or private. A speaker can change the choice or withdraw at any time."],["Names and credit","Elders are credited by name in the archive and lessons, if they wish."],["Community keeps the data","Recordings stay with the community and partner institutions, never sold or used for unrelated products."]],
+ru:[["Сначала согласие","Каждая запись начинается с устного согласия на родном языке рассказчика; оно хранится вместе с файлом."],["Доступ выбирает рассказчик","Публично, только для семьи или лично. Решение можно изменить или отозвать в любой момент."],["Имена и авторство","Старшие указываются по имени в архиве и уроках, если хотят этого."],["Данные остаются у общины","Записи хранятся у общины и партнёров, не продаются и не используются для посторонних продуктов."]],
+az:[["Əvvəlcə razılıq","Hər yazı danışanın öz dilində şifahi razılıqla başlayır; razılıq faylla birlikdə saxlanılır."],["Girişi danışan seçir","Açıq, yalnız ailə üçün və ya şəxsi. Qərar istənilən vaxt dəyişdirilə və ya geri götürülə bilər."],["Adlar və müəlliflik","Yaşlılar istəsələr, arxivdə və dərslərdə adları ilə qeyd olunurlar."],["Məlumat icmada qalır","Yazılar icma və tərəfdaşlarda saxlanılır, satılmır və kənar məhsullar üçün istifadə edilmir."]]},
+ph:{en:[["First circle","Gather volunteers, write the interview guide and the consent script."],["Family visits","Grandchildren record elders at home in Baku and Quba."],["Juhuri evenings","Regular gatherings in Qırmızı Qəsəbə; the word list grows."],["Lessons","AI-assisted transcripts and translations; a pilot of word cards and lessons in schools."],["Open archive","Launch the community archive and publish the research."]],
+ru:[["Первый круг","Собрать волонтёров, написать план интервью и текст согласия."],["Семейные визиты","Внуки записывают старших дома в Баку и Губе."],["Вечера джуури","Регулярные встречи в Красной Слободе; словарь растёт."],["Уроки","Расшифровки и переводы с помощью ИИ; пилот карточек и уроков в школах."],["Открытый архив","Запустить архив общины и опубликовать исследование."]],
+az:[["İlk dairə","Könüllüləri toplamaq, müsahibə planını və razılıq mətnini yazmaq."],["Ailə ziyarətləri","Nəvələr Bakıda və Qubada yaşlıları evdə yazır."],["Cuhuri axşamları","Qırmızı Qəsəbədə müntəzəm görüşlər; lüğət böyüyür."],["Dərslər","Süni intellektin köməyi ilə transkripsiya və tərcümə; məktəblərdə kart və dərslərin pilotu."],["Açıq arxiv","İcma arxivini açmaq və tədqiqatı dərc etmək."]]},
+roles:{en:["My family has an elder who speaks Juhuri","I want to interview elders","I can transcribe or translate (AZ, RU, EN)","I am a teacher","I am a linguist or researcher"],ru:["В семье есть старший, говорящий на джуури","Хочу брать интервью у старших","Могу расшифровывать или переводить (AZ, RU, EN)","Я учитель","Я лингвист или исследователь"],az:["Ailəmdə cuhuri danışan yaşlı var","Yaşlılarla müsahibə etmək istəyirəm","Transkripsiya və ya tərcümə edə bilərəm (AZ, RU, EN)","Müəlliməm","Dilçi və ya tədqiqatçıyam"]}
+};
+
+const $=s=>document.querySelector(s);
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const marked=(value,q)=>{
+ const raw=String(value);if(!q)return esc(raw);
+ let folded="",starts=[],ends=[],offset=0;
+ for(const char of raw){const start=offset;offset+=char.length;const part=char.toLowerCase().normalize("NFD").replace(/[̀-ͯ']/g,"");for(const unit of part){folded+=unit;starts.push(start);ends.push(offset)}}
+ const at=folded.indexOf(q);if(at<0)return esc(raw);
+ const start=starts[at],end=ends[at+q.length-1];
+ return `${esc(raw.slice(0,start))}<mark>${esc(raw.slice(start,end))}</mark>${esc(raw.slice(end))}`;
+};
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const LI={en:3,ru:4,az:5};
+let lang=store.get("jai-lang","en");if(!["en","ru","az"].includes(lang))lang="en";
+let sel=0,cat="all",wodI=Math.floor(Date.now()/864e5)%W.length;
+let reqs=store.get("jai-reqs",[]);if(!Array.isArray(reqs))reqs=[];
+let mine=store.get("jai-words",[]);if(!Array.isArray(mine))mine=[];
+const clips=new Map();
+const orig=new Map();
+document.querySelectorAll("[data-t]").forEach(el=>orig.set(el,el.innerHTML));
+
+const card=(w,i,q,index)=>{
+ const U=D.ui[lang],li=LI[lang],lit=w[li+3];
+ const src=w[9]==="p"?`<a href="${SRC.p}">${U.hear}</a>`:`<a href="${SRC[w[9]]}">${U.src}</a>`;
+ const clip=clips.get(w[0]);
+ const entered=$("#grid").dataset.seen==="true",entry=!entered&&index<12?" entry":"";
+ return `<article class="w${entry}" data-i="${i}" style="--i:${index};view-transition-name:word-${i}"><span class="cat">${esc(D.cats[lang][w[2]])}</span><span class="lat">${marked(w[0],q)}</span>${w[1]?`<span class="cyr">${marked(w[1],q)}</span>`:""}<p class="mean" title="${esc(U.tap)}">${marked(w[li],q)}</p>${lit?`<p class="lit">${esc(U.lit)}: ${marked(lit,q)}</p>`:""}<div class="ft">${src}<label class="up">${esc(U.att)}<input type="file" accept="audio/*" data-k="${esc(w[0])}"></label></div>${clip?`<audio controls class="attached-audio" src="${clip}"></audio>`:""}</article>`;
+};
+const mineCard=(m,i,q,index)=>{
+ const U=D.ui[lang],clip=clips.get(m.w);
+ const entry=$("#grid").dataset.seen==="true"||index>=12?"":" entry";
+ return `<article class="w mine${entry}" style="--i:${index};view-transition-name:family-${i}"><span class="cat">${esc(U.mineTag)}</span><span class="lat">${marked(m.w,q)}</span>${m.c?`<span class="cyr">${marked(m.c,q)}</span>`:""}<p class="mean">${marked(m.m,q)}</p>${m.f?`<p class="lit">${marked(m.f,q)}</p>`:""}<div class="ft"><label class="up">${esc(U.att)}<input type="file" accept="audio/*" data-k="${esc(m.w)}"></label><button type="button" class="rm" data-mrm="${i}">${esc(U.rm)}</button></div>${clip?`<audio controls class="attached-audio" src="${clip}"></audio>`:""}</article>`;
+};
+const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ']/g,"");
+const renderWords=(withTransition=false)=>{
+ const q=norm($("#q").value.trim());
+ const hit=a=>!q||a.some(x=>norm(x).includes(q));
+ const base=cat==="mine"?[]:W.map((w,i)=>[w,i]).filter(([w])=>(cat==="all"||w[2]===cat)&&hit([w[0],w[1],w[3],w[4],w[5]]));
+ const own=(cat==="all"||cat==="mine")?mine.map((m,i)=>[m,i]).filter(([m])=>hit([m.w,m.c,m.m])):[];
+ const paint=()=>{
+  const html=own.map(([m,i],index)=>mineCard(m,i,q,index)).join("")+base.map(([w,i],index)=>card(w,i,q,own.length+index)).join("");
+  $("#grid").innerHTML=html||`<p class="empty">${esc(D.ui[lang].none)}</p>`;
+  const n=base.length+own.length,r10=n%10,r100=n%100;$("#count").textContent=`${n} ${lang==="ru"?(r10===1&&r100!==11?"слово":r10>=2&&r10<=4&&(r100<12||r100>14)?"слова":"слов"):D.ui[lang].n}`;
+ };
+ if(withTransition&&document.startViewTransition&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.startViewTransition(paint);else paint();
+};
+const renderCats=(animateActive=false)=>{
+ const keys=["all","greet","family","love","body","num","food","say"].concat(mine.length?["mine"]:[]);
+ if(!keys.includes(cat))cat="all";
+ $("#cats").innerHTML=keys.map(k=>`<button type="button" class="${animateActive&&k===cat?"active-in":""}" data-c="${k}" aria-pressed="${k===cat}">${esc(D.cats[lang][k])}</button>`).join("");
+};
+const renderWod=()=>{
+ const w=W[wodI],U=D.ui[lang],li=LI[lang],lit=w[li+3];
+ $("#wod").innerHTML=`<small>${esc(U.wod)}</small><span class="w1">${esc(w[0])}</span>${w[1]?`<span class="w2">${esc(w[1])}</span>`:""}<p>${esc(w[li])}${lit?` · ${esc(U.lit)}: ${esc(lit)}`:""}</p><button type="button" class="btn" id="nextW">${esc(U.next)}</button>`;
+};
+const renderSounds=()=>{
+ const h=D.sounds.head[lang];
+ const entered=$("#sounds").dataset.seen==="true";
+ $("#sounds").innerHTML=`<thead><tr>${h.map(x=>`<th scope="col">${esc(x)}</th>`).join("")}</tr></thead><tbody>${D.sounds.rows.map((r,i)=>`<tr class="${entered?"settled":"entry"}" style="--i:${i}"><td class="big">${esc(r[0])}</td><td class="big">${esc(r[1])}</td><td>${esc(r[2][lang])}</td><td style="white-space:nowrap">${esc(r[3])}</td></tr>`).join("")}</tbody>`;
+};
+const renderFacts=()=>{
+ const box=$("#facts"),counted=box.dataset.counted==="true"||matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.classList.contains("motion-off");
+ if(counted)box.dataset.counted="true";
+ box.innerHTML=D.facts[lang].map((f,i)=>{
+  const value=String(f[0]).replace(/\d+/g,n=>`<span class="count-num" style="width:${n.length}ch" data-to="${n}">${counted?n:0}</span>`);
+  const valueHtml=/\d/.test(f[0])?value:`<span class="status">${esc(f[0])}</span>`;
+  return `<div class="fact${box.dataset.seen==="true"?" settled":" entry"}" style="--i:${i}"><strong>${valueHtml}</strong><span>${esc(f[1])}</span></div>`;
+ }).join("");
+};
+const animateCounters=box=>{
+ if(box.dataset.counted==="true")return;
+ box.dataset.counted="true";
+ if(matchMedia("(prefers-reduced-motion: reduce)").matches){box.querySelectorAll(".count-num").forEach(n=>n.textContent=n.dataset.to);return}
+ const start=performance.now(),duration=900,nodes=[...box.querySelectorAll(".count-num")];
+ const tick=now=>{
+  const p=Math.min(1,(now-start)/duration),eased=1-Math.pow(1-p,3);
+  nodes.forEach(n=>{n.textContent=String(Math.round(Number(n.dataset.to)*eased))});
+  if(p<1)requestAnimationFrame(tick);
+ };
+ requestAnimationFrame(tick);
+};
+let previousStep=sel;
+const renderRoute=(stepChange=false,direction=0)=>{
+ $("#route").classList.toggle("knot",stepChange&&!matchMedia("(prefers-reduced-motion: reduce)").matches);
+ $("#route").style.setProperty("--route-progress",String(sel/4));
+ $("#route").innerHTML=D.st[lang].map((s,i)=>`<button type="button" class="st" data-step="${i}" role="tab" id="st${i}" aria-controls="detail" aria-selected="${i===sel}" tabindex="${i===sel?0:-1}"><i>${i+1}</i><span>${esc(s[0])}</span></button>`).join("");
+ const s=D.st[lang][sel],L=D.stLab[lang];
+ $("#detail").setAttribute("aria-labelledby","st"+sel);
+ const detail=$("#detail");
+ detail.dataset.step=String(sel);
+ detail.dataset.direction=direction>0?"forward":"back";
+ detail.innerHTML=`<div><h3>${esc(s[1])}</h3><p class="lead" style="margin:0">${esc(s[2])}</p></div><div class="kv"><div><b>${esc(L[0])}</b>${esc(s[3])}</div><div><b>${esc(L[1])}</b>${esc(s[4])}</div></div>`;
+ if(stepChange&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&detail.animate)detail.animate(direction>0?[{opacity:0,transform:"translateX(18px)"},{opacity:1,transform:"translateX(0)"}]:[{opacity:0,transform:"translateX(-18px)"},{opacity:1,transform:"translateX(0)"}],{duration:320,easing:"cubic-bezier(.2,.8,.2,1)"});
+ previousStep=sel;
+};
+const renderLists=()=>{
+ const hyp=$("#hyp"),eth=$("#eth"),phases=$("#phases");
+ hyp.innerHTML=D.hyp[lang].map((h,i)=>`<div class="${hyp.dataset.seen==="true"?"settled":"entry"}" style="--i:${i}"><b>${esc(h[0])}</b>${esc(h[1])}</div>`).join("");
+ eth.innerHTML=D.eth[lang].map((e,i)=>`<div class="${eth.dataset.seen==="true"?"settled":"entry"}" style="--i:${i}"><h3>${esc(e[0])}</h3><p>${esc(e[1])}</p></div>`).join("");
+ phases.innerHTML=D.ph[lang].map((p,i)=>`<li class="${phases.dataset.seen==="true"?"settled":"entry"}" style="--i:${i}"><b>${esc(p[0])}</b><span>${esc(p[1])}</span></li>`).join("");
+ const r=$("#fRole"),v=r.selectedIndex;r.innerHTML=D.roles[lang].map((x,i)=>`<option value="${i}">${x}</option>`).join("");r.selectedIndex=v<0?0:v;
+};
+const renderReqs=(animateNew=false)=>{
+ const U=D.ui[lang];
+ $("#reqs").innerHTML=reqs.length?reqs.map((r,i)=>`<div class="req${animateNew&&i===0?" new":""}"><b>${esc(r.name)}${r.city?", "+esc(r.city):""}</b><button type="button" data-rm="${i}">${esc(U.rm)}</button><span>${esc(D.roles[lang][r.role]||"")}</span></div>`).join(""):`<p class="empty">${esc(U.empty)}</p>`;
+};
+const setLang=l=>{
+ lang=l;store.set("jai-lang",l);document.documentElement.lang=l;
+ document.querySelectorAll("[data-t]").forEach(el=>{const k=el.dataset.t;el.innerHTML=l==="en"?orig.get(el):(T[l][k]??orig.get(el))});
+ document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
+ document.querySelector(".lang").style.setProperty("--lang-index",String(["en","ru","az"].indexOf(l)));
+ $("#q").placeholder={en:"Search in any language",ru:"Поиск на любом языке",az:"İstənilən dildə axtarış"}[l];
+ $("#sgWho").placeholder={en:"My grandmother, Quba",ru:"Моя бабушка, Губа",az:"Nənəm, Quba"}[l];
+ renderFacts();renderCats();renderWords();renderWod();renderSounds();renderRoute();renderLists();renderReqs();
+};
+
+/* woven runner */
+const svg=$("#runner");
+let lit=null,fx=0,fw=0;
+const motionPreference=matchMedia("(prefers-reduced-motion: reduce)");
+const setHead=p=>{if(!lit)return;const x=fx+fw*p;lit.setAttribute("width",x);const h=$("#head");if(h)h.setAttribute("x",x-1.5)};
+const drawRunner=()=>{
+ const Wd=svg.clientWidth,H=svg.clientHeight;if(!Wd||!H)return;
+ let seed=7;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
+ const b=Math.round(Math.max(16,H*.11)),k=Math.max(5,Math.round(H/40));
+ let o=`<defs><clipPath id="lit"><rect id="litR" x="0" y="0" width="0" height="${H}"/></clipPath></defs><rect width="${Wd}" height="${H}" fill="var(--mad)"/>`;
+ const tri=(y,up)=>{let s="";for(let x=0;x<Wd;x+=b){s+=`<path d="M${x} ${up?y+b:y}L${x+b/2} ${up?y:y+b}L${x+b} ${up?y+b:y}Z" fill="var(--saf)"/><rect x="${x+b/2-2}" y="${y+b/2-2}" width="4" height="4" fill="var(--wool)"/>`}return s};
+ o+=tri(0,false)+tri(H-b,true);
+ o+=`<rect x="0" y="${b+4}" width="${Wd}" height="${H-2*b-8}" fill="var(--wool)"/><rect x="0" y="${b+8}" width="${Wd}" height="${H-2*b-16}" fill="var(--ind)"/>`;
+ const top=b+8,fh=H-2*b-16,mid=top+fh/2,amp=fh/2-k*1.5,R=Math.min(fh*.42,70,Wd*.07);
+ const gul=cx=>{let s="";for(let i=4;i>0;i--){const r=R*i/4;s+=`<path d="M${cx} ${mid-r}L${cx+r} ${mid}L${cx} ${mid+r}L${cx-r} ${mid}Z" fill="${["var(--mad)","var(--saf)","var(--ind)","var(--wool)"][4-i]}"/>`}return s};
+ const pad=R+(Wd<520?8:18);
+ o+=gul(pad)+gul(Wd-pad);
+ fx=pad*2;fw=Wd-pad*4;
+ let bars="",word=0,gap=0;
+ for(let x=fx;x<fx+fw-k;x+=k+2){
+  if(word<=0&&gap<=0){word=4+Math.floor(rnd()*12);gap=1+Math.floor(rnd()*3)}
+  let h;
+  if(word>0){const e=Math.sin(Math.PI*(1-word/14));h=amp*(.25+.75*rnd())*Math.max(.3,Math.abs(e));word--}else{h=k;gap--}
+  h=Math.max(k,Math.round(h/k)*k);
+  bars+=`<rect x="${x.toFixed(1)}" y="${(mid-h).toFixed(1)}" width="${k}" height="${(2*h).toFixed(1)}"/>`;
+ }
+ o+=`<g fill="var(--wool)" opacity=".28">${bars}</g><g fill="var(--saf)" clip-path="url(#lit)">${bars}</g><rect id="head" x="0" y="${top}" width="3" height="${fh}" fill="var(--wool)"/>`;
+ svg.setAttribute("viewBox",`0 0 ${Wd} ${H}`);svg.innerHTML=o;lit=$("#litR");
+ if(motionPreference.matches)setHead(.62);
+};
+const ro=new ResizeObserver(drawRunner);ro.observe(svg);
+let runnerFrame=0,runnerStart=performance.now();
+const runnerLoop=t=>{
+ if(motionPreference.matches){runnerFrame=0;setHead(.62);return}
+ const c=((t-runnerStart)/1000)%9;setHead(Math.min(1,c/7.5));runnerFrame=requestAnimationFrame(runnerLoop);
+};
+const syncRunnerMotion=()=>{
+ if(motionPreference.matches){if(runnerFrame)cancelAnimationFrame(runnerFrame);runnerFrame=0;setHead(.62)}
+ else if(!runnerFrame){runnerStart=performance.now();runnerFrame=requestAnimationFrame(runnerLoop)}
+};
+if(motionPreference.addEventListener)motionPreference.addEventListener("change",syncRunnerMotion);
+else if(motionPreference.addListener)motionPreference.addListener(syncRunnerMotion);
+syncRunnerMotion();
+
+/* events */
+const root=document.documentElement;
+const prefersReducedMotion=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduce=prefersReducedMotion();
+const supportsView=window.CSS&&CSS.supports("animation-timeline: view()");
+if(reduce)root.classList.add("motion-off");
+if(!supportsView)root.classList.add("no-scroll-timeline");
+const title=$(".hero h1"),titleText=title.textContent;
+title.innerHTML=[...titleText].map((letter,i)=>`<span class="letter-mask"><span class="letter" style="--i:${i}">${letter===" "?"&nbsp;":letter}</span></span>`).join("");
+$(".scripts").querySelectorAll("span").forEach((el,i)=>el.style.setProperty("--i",String(i)));
+document.querySelectorAll(".scriptcards .sc").forEach((el,i)=>{el.classList.add("entry");el.style.setProperty("--i",String(i))});
+const motionTargets="section.band,.scriptcards,.facts,.grid,.hyp,.eth,.phases,.route,#sounds,.reqs,.place";
+let motionObserver=null;
+if("IntersectionObserver"in window&&!reduce){
+ motionObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+   if(!entry.isIntersecting)return;
+   const el=entry.target;el.classList.add("in");el.dataset.seen="true";motionObserver.unobserve(el);
+   if(el.id==="facts")animateCounters(el);
+  });
+ },{threshold:.01});
+}else root.classList.add("motion-off");
+const observeMotion=()=>{
+ if(!motionObserver)return;
+ document.querySelectorAll(motionTargets).forEach(el=>{if(el.dataset.seen!=="true")motionObserver.observe(el)});
+};
+const scrollProgress=()=>{
+ const max=document.documentElement.scrollHeight-window.innerHeight;
+ const value=max>0?Math.min(1,window.scrollY/max):0;
+ root.style.setProperty("--scroll-progress",String(value));
+ document.querySelector("nav").classList.toggle("scrolled",window.scrollY>40);
+ if(motionObserver)document.querySelectorAll(motionTargets).forEach(el=>{
+  if(el.dataset.seen==="true"||el.getBoundingClientRect().bottom>=0)return;
+  el.classList.add("in");el.dataset.seen="true";motionObserver.unobserve(el);
+  if(el.id==="facts")animateCounters(el);
+ });
+};
+let scrollQueued=false;
+window.addEventListener("scroll",()=>{
+ if(scrollQueued)return;scrollQueued=true;
+ requestAnimationFrame(()=>{scrollProgress();scrollQueued=false});
+},{passive:true});
+scrollProgress();
+observeMotion();
+document.querySelector(".lang").addEventListener("click",e=>{const b=e.target.closest("button[data-l]");if(b)setLang(b.dataset.l)});
+$("#cats").addEventListener("click",e=>{const b=e.target.closest("button[data-c]");if(!b)return;cat=b.dataset.c;renderCats(true);renderWords(true)});
+$("#q").addEventListener("input",()=>renderWords(true));
+$("#practice").addEventListener("change",e=>$("#grid").classList.toggle("practice",e.target.checked));
+$("#grid").addEventListener("click",e=>{
+ const rm=e.target.closest("[data-mrm]");
+ if(rm){mine.splice(+rm.dataset.mrm,1);store.set("jai-words",mine);renderCats();renderWords(true);return}
+ const m=e.target.closest(".mean,.lit");if(m&&$("#grid").classList.contains("practice"))m.closest(".w").classList.toggle("shown");
+});
+$("#grid").addEventListener("change",e=>{
+ const f=e.target.closest("input[type=file]");if(!f||!f.files[0])return;
+ const k=f.dataset.k,old=clips.get(k);if(old)URL.revokeObjectURL(old);
+ clips.set(k,URL.createObjectURL(f.files[0]));renderWords(); 
+});
+$("#wod").addEventListener("click",e=>{
+ const button=e.target.closest("#nextW");if(!button)return;
+ const change=()=>{
+  wodI=(wodI+1+Math.floor(Math.random()*(W.length-1)))%W.length;
+  renderWod();const next=$("#nextW");next.focus();
+  if(!prefersReducedMotion()&&$("#wod").animate)$("#wod").animate([{transform:"rotateX(90deg)"},{transform:"rotateX(0deg)"}],{duration:220,easing:"cubic-bezier(.2,.8,.2,1)"});
+ };
+ const wod=$("#wod");
+ if(prefersReducedMotion()||!wod.animate){change();return}
+ wod.animate([{transform:"rotateX(0deg)"},{transform:"rotateX(90deg)"}],{duration:220,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=change;
+});
+const shake=field=>{
+ if(prefersReducedMotion()||!field.animate)return;
+ field.animate([{transform:"translateX(0)"},{transform:"translateX(-4px)"},{transform:"translateX(4px)"},{transform:"translateX(0)"}],{duration:240,iterations:2,easing:"ease-in-out"});
+};
+const successTimers=new WeakMap();
+const showSuccess=form=>{
+ const button=form.querySelector('button[type="submit"]');
+ clearTimeout(successTimers.get(button));button.classList.add("success");
+ successTimers.set(button,setTimeout(()=>button.classList.remove("success"),1200));
+};
+$("#sg").addEventListener("submit",e=>{
+ e.preventDefault();const w=$("#sgWord").value.trim(),m=$("#sgMean").value.trim();
+ if(!w||!m){$("#sgErr").textContent=D.ui[lang].errW;const field=w?$("#sgMean"):$("#sgWord");shake(field);field.focus();return}
+ $("#sgErr").textContent="";
+ mine.unshift({w:w.slice(0,80),c:$("#sgCyr").value.trim().slice(0,80),m:m.slice(0,200),f:$("#sgWho").value.trim().slice(0,120)});
+ store.set("jai-words",mine);showSuccess(e.currentTarget);e.target.reset();cat="mine";renderCats();renderWords(true);
+ $("#grid").scrollIntoView({block:"start"});
+});
+$("#route").addEventListener("click",e=>{const b=e.target.closest(".st");if(!b)return;const next=+b.dataset.step,dir=next-previousStep;sel=next;renderRoute(true,dir);$("#st"+sel).focus()});
+$("#route").addEventListener("keydown",e=>{if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;e.preventDefault();sel=(sel+(e.key==="ArrowRight"?1:4))%5;renderRoute(true,e.key==="ArrowRight"?1:-1);$("#st"+sel).focus()});
+$("#form").addEventListener("submit",e=>{
+ e.preventDefault();const name=$("#fName").value.trim();
+ if(!name){$("#fErr").textContent=D.ui[lang].err;shake($("#fName"));$("#fName").focus();return}
+ $("#fErr").textContent="";
+ reqs.unshift({name:name.slice(0,80),role:+$("#fRole").value,city:$("#fCity").value.trim().slice(0,80),msg:$("#fMsg").value.trim().slice(0,1000)});
+ store.set("jai-reqs",reqs);showSuccess(e.currentTarget);e.target.reset();renderLists();renderReqs(true);
+});
+$("#reqs").addEventListener("click",e=>{
+ const b=e.target.closest("[data-rm]");if(!b)return;
+ const remove=()=>{reqs.splice(+b.dataset.rm,1);store.set("jai-reqs",reqs);renderReqs()};
+ const row=b.closest(".req");
+ if(prefersReducedMotion()||!row.animate){remove();return}
+ row.animate([{opacity:1,transform:"scaleY(1)"},{opacity:0,transform:"scaleY(0)"}],{duration:220,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=remove;
+});
+document.addEventListener("click",e=>{
+ if(prefersReducedMotion())return;
+ const button=e.target.closest(".btn.pri");if(!button)return;
+ const box=button.getBoundingClientRect(),ripple=document.createElement("span");
+ ripple.className="ripple";ripple.setAttribute("aria-hidden","true");
+ ripple.style.left=`${e.clientX?e.clientX-box.left:box.width/2}px`;ripple.style.top=`${e.clientY?e.clientY-box.top:box.height/2}px`;
+ ripple.addEventListener("animationend",()=>ripple.remove(),{once:true});button.append(ripple);
+});
+
+setLang(lang);
+observeMotion();
+}
+</script>
+</body>
+</html>
